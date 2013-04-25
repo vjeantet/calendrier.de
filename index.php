@@ -83,7 +83,7 @@ $calendrier_url = sprintf('%s%s/%s',
 </head>
 
 <body>
-
+<span id="forkongithub"><a href="https://github.com/vjeantet/calendrier.de">Fork me on GitHub</a></span>
 <span id='entete'>
 	<span id='annee' contenteditable="true"><?
 	echo ($annee_fin == $annee_deb) ? $annee_deb : $annee_deb.'-'.$annee_fin ;	
