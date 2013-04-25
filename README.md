@@ -1,5 +1,5 @@
 # calendrier.de
-Le code source du site calendrier.de
+Le code source du site http://calendrier.de
 
 # principe du site
 
