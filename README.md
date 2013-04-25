@@ -4,5 +4,5 @@ Le code source du site calendrier.de
 # principe du site
 
 
-# fonctionalités à implémenter, un jour...
+# fonctionalités à implémenter, un jour.
 
