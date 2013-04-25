@@ -1,0 +1,110 @@
+	BODY{
+		-webkit-print-color-adjust:exact;
+		font-family:arial;
+		width:990px;
+	}
+
+	SPAN{
+		display:block;	
+	}
+
+	.mois{
+		width:165px;
+		float:left;
+	}
+	.nom_mois{
+		text-transform:uppercase;
+		border-top:2px solid black;
+		border-bottom:2px solid black;
+		margin-bottom:5px;
+		padding:3px 0px 2px 0px ;
+	}
+	.jour{
+		float:left;
+		clear:left;
+		width:155px;
+	/*	padding-bottom:4px;*/
+	}
+	.nom_jour{
+		float:left;
+		width:16px;
+		padding:0px 2px 0px 0px;
+	}
+	.numero_jour{
+		float:left;
+		width:18px;
+		text-align:right;
+		padding:0px 5px 0px 0px;
+		font-weight:bold;
+		color:red;
+	}
+	.infos_jour{
+		position:relative;
+		border-bottom:1px solid gray;
+		float:left;
+		width:114px;
+		font-size:13px;
+		text-align:center;
+	}
+	.numero_semaine{
+		position:absolute;
+		right:1px;
+		top:3px;
+		padding-left:4px;
+		background-color:white;
+		font-size:x-large;
+		letter-spacing:-1px;
+	}
+	.mois_footer{
+		clear:both;
+	}
+
+	#entete{
+		position:relative;
+		margin-bottom:3px;
+		width:990px;
+		height:60px;
+	}
+	#url{
+
+		width:100%;
+		float:left;
+		margin-top:48px;
+		font-size:11px;
+		position:absolute;
+		font-style:italic;
+	}
+	#logo{
+		display:none;
+/*		text-align:center;*/
+	}
+	#annee{
+		position:absolute;
+		font-size:60px;
+		font-weight:bold;
+		right:5px;
+		top:0px;
+	}
+	
+	#calendrier{
+
+	}
+	#titre{
+		font-weight:bold;
+		font-size:30px;
+		margin-top:20px;
+		text-align:center;
+		width:990px;
+	    margin-left: auto ;
+	    margin-right: auto ;
+		position:absolute;
+	}
+	.actions
+	{
+		position:absolute;
+		display:block;
+		top:-10px;
+		display:block;
+		padding:0px;
+		text-align:left;
+	}

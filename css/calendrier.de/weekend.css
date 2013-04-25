@@ -1,0 +1,49 @@
+.ferie{
+	padding-bottom:0px;
+	background-color:#eaeaea;
+	color:#2960ae;
+}
+.ferie .numero_jour{color:#2960ae;}
+	
+	
+/*tous les dimanche grisé*/
+.J_D{
+	padding-bottom:0px;
+	border-bottom:1px solid #2960ae; 
+	background-color:#EAEAEA;
+	color:#2960ae;
+}
+.J_D .numero_jour{color:#2960ae;}
+
+.J_S{
+    background-color:#EAEAEA;
+	color:#2960ae;
+}
+.J_S .numero_jour{color:#2960ae;}
+
+/*#j-29052013 .opt1{
+	width:5px;
+	height:18px;
+	background-color:red;
+	position:absolute;
+	margin-left:149px;
+	display:block;
+}
+
+#j-30052013 .opt1{
+	width:5px;
+	height:18px;
+	background-color:red;
+	position:absolute;
+	margin-left:149px;
+	display:block;
+}
+
+#j-31052013 .opt1{
+	width:5px;
+	height:18px;
+	background-color:red;
+	position:absolute;
+	margin-left:149px;
+	display:block;
+}*/

@@ -1,0 +1,20 @@
+/*		COULEURS */
+	#annee{
+		color:#2960ae;
+	}
+	#titre{
+		color:#2960ae; 
+	}
+	.numero_jour{
+		color:#2960ae;
+		color:black;
+	}
+
+	.infos_jour{
+		color:black;
+		height:15px;
+	}
+	
+	.numero_semaine{
+		color:#2960ae;
+	}

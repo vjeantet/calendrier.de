@@ -1,0 +1,23 @@
+#Options +FollowSymLinks +ExecCGI
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # uncomment the following line, if you are having trouble
+  # getting no_script_name to work
+  #RewriteBase /
+
+  # we skip all files with .something
+  RewriteCond %{REQUEST_URI} \..+$
+  RewriteCond %{REQUEST_URI} !\.html$
+  RewriteRule .* - [L]
+
+
+  # no, so we redirect to our front web controller
+  RewriteRule ^([0-9]{4}?)/?([0-9]{0,2})/?(.*)$ index.php?y=$1&m=$2&t=$3  [QSA,L]
+  RewriteRule ^([^/]*)/?([0-9]{4}?)/?([0-9]{0,2})$ index.php?y=$2&m=$3&t=$1  [QSA,L]
+  RewriteRule ^(.*)$ index.php?t=$1 [QSA,L]
+</IfModule>
+
+# big crash from our front web controller
+ErrorDocument 500 "<h2>Application error</h2>"
