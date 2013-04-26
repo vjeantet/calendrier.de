@@ -2,8 +2,6 @@
 date_default_timezone_set('Europe/Paris'); 
 $nb_mois = 6 ;
 
-//$date_deb = $_SERVER['QUERY_STRING'] ;
-//$date_deb = $_SERVER["REQUEST_URI"];
 $annee_deb = isset($_GET['y']) ? $_GET['y'] : date('Y')  ;
 if (false == is_numeric($annee_deb)) $annee_deb = date('Y') ;
 
@@ -25,7 +23,7 @@ $calendrier_url = sprintf('%s%s/%s',
 
 
 
-//phpinfo();
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -54,7 +52,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	  })();
 
 	</script>
-	<script src="/js/jquery/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="/js/JSON-js/json2.js"></script>
 	<script src="/js/jquery-cookie/jquery.cookie.js"></script>
 	
