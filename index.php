@@ -172,6 +172,6 @@ for ($i=0 ;$i<$nb_mois; $i++ )
 </span>
 
 
-<div id="forkongithub" style="clear:both;margin-top:3px;padding:3px;border-top:1px gray dashed;font-size:10px;text-align:right"><a href="https://github.com/vjeantet/calendrier.de">Fork me on GitHub</a></div>
+<div id="forkongithub"><a href="https://github.com/vjeantet/calendrier.de">Fork me on GitHub</a></div>
 </body>
 </html>
