@@ -35,6 +35,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	<meta name="author" content="contact@calendrier.de">
 	<meta http-equiv="Content-Language" content="fr">
 	<meta name="author" content="Valere JEANTET">
+	<meta name='copyright' content='Apache License version 2.0'>
 	<meta name="description" content="un calendrier semestriel simple et imprimable.">
 	<meta name="keywords" content="calendrier, semestre, imprimable, simple">
 	<title>Calendrier <?echo empty($titre_safe) ? $annee_deb.' semestriel' : 'de '.$titre_safe ;?></title>
