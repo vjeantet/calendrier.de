@@ -43,6 +43,7 @@ function jourSetCustomization(jours_list,dayoff)
 		$('span[jour="'+jour+'"]').text(text) ;
 		if (dayoff == true)
 		{
+			$('span[jour="'+jour+'"]').addClass('locked');
 			$('#j-'+jour).addClass('ferie');			
 		}
 	});
@@ -50,6 +51,6 @@ function jourSetCustomization(jours_list,dayoff)
 
 function jourDeleteCustomization()
 {
-	$('span[jour]').text('') ;
+	$("span[jour]").not('.locked').text('') ;
 	storageSetData({})
 }
