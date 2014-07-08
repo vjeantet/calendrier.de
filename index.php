@@ -59,7 +59,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="author" content="contact@vjeantet.fr">
 	<meta http-equiv="Content-Language" content="fr">
-	<meta name="author" content="Valere JEANTET">
+	<meta name="author" content="Valère JEANTET">
 	<meta name='copyright' content='Apache License version 2.0'>
 	<meta name="description" content="un calendrier semestriel simple et imprimable.">
 	<meta name="keywords" content="calendrier, semestre, imprimable, simple">
