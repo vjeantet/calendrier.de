@@ -57,7 +57,7 @@ $calendrier_url = sprintf('%s%s/%s',
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="author" content="contact@calendrier.de">
+	<meta name="author" content="contact@vjeantet.fr">
 	<meta http-equiv="Content-Language" content="fr">
 	<meta name="author" content="Valere JEANTET">
 	<meta name='copyright' content='Apache License version 2.0'>
