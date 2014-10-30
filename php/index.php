@@ -79,30 +79,29 @@ $calendrier_url = sprintf('%s%s/%s',
 
 	</script>
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="/js/JSON-js/json2.js"></script>
-	<script src="/js/jquery-cookie/jquery.cookie.js"></script>
+	<script src="/static/js/JSON-js/json2.js"></script>
+	<script src="/static/js/jquery-cookie/jquery.cookie.js"></script>
 	
 	<?php if ($titre_utf8 != null){ ?>
-		<script src="/js/calendrier.de/jours.php?t=<?php echo urlencode($titre_utf8)?>"></script>		
+		<script src="/static/js/calendrier.de/jours.php?t=<?php echo urlencode($titre_utf8)?>"></script>		
 	<?php };?>
 	
-	<script src="/js-calendrier.de/joursferies.php?annee=<?php echo $annee_deb?>"></script>
 	<script src="/dayoff?annee=<?php echo $annee_deb?>"></script>
-	<script src="/js/calendrier.de/detailsjour.js"></script>
+	<script src="/static/js/calendrier.de/detailsjour.js"></script>
 
 		
-	<link rel="stylesheet" type="text/css" media="" href="/css/calendrier.de/default.css">
-	<link rel="stylesheet" type="text/css" media="" href="/css/calendrier.de/couleurs.css">
-	<link rel="stylesheet" type="text/css" media="print" href="/css/calendrier.de/print.css">
+	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/default.css">
+	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/couleurs.css">
+	<link rel="stylesheet" type="text/css" media="print" href="/static/css/calendrier.de/print.css">
 	<?php if(strpos($_SERVER["HTTP_USER_AGENT"],'Paparazzi')){?>
-		<link rel="stylesheet" type="text/css" media="print" href="/css/calendrier.de/print.css">
+		<link rel="stylesheet" type="text/css" media="print" href="/static/css/calendrier.de/print.css">
 	<?php }?>
 	
-	<link rel="stylesheet" type="text/css" media="" href="/css/calendrier.de/weekend.css">
+	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/weekend.css">
 
-	<link rel="icon" type="image/png" href="/img/favicon.png"> 
+	<link rel="icon" type="image/png" href="/static/img/favicon.png"> 
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" href="/img/favicon.png"/>
+	<link rel="apple-touch-icon" href="/static/img/favicon.png"/>
 	
 	
 </head>
@@ -120,7 +119,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	</span>
 	<span id="titre" contenteditable="true"><?php echo $titre_safe ;?></span>
 	<span id='url'>&hearts; http://calendrier.de<?php echo $calendrier_url ?></span>
-	<span id='logo' ><img  src="/img/logo_r.png" alt="Sodadi"></span>
+	<span id='logo' ><img  src="/static/img/logo_r.png" alt="Sodadi"></span>
 </span>
 
 <span id='calendrier'>
