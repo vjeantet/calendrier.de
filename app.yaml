@@ -1,0 +1,35 @@
+application: calendrier-de
+version: 1
+runtime: php
+api_version: 1
+
+handlers:
+- url: /
+  script: index.php
+
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+
+- url: /(.*\.(gif|png|jpg|css|js))$
+  static_files: \1
+  upload: (.*)
+
+- url: /(.*)
+  script: index.php
+
+
+skip_files:
+  - ^(.*/)?app\.yaml
+  - ^(.*/)?app\.yml
+  - ^(.*/)?#.*#
+  - ^(.*/)?.*~
+  - ^(.*/)?\..*
+  - ^(.*/)?tests$
+  - ^(.*/)?test$
+  - ^test/(.*/)?
+  - ^README\..*
+  - \.gitignore
+  - ^\.git/.*
