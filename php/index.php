@@ -86,7 +86,8 @@ $calendrier_url = sprintf('%s%s/%s',
 		<script src="/js/calendrier.de/jours.php?t=<?php echo urlencode($titre_utf8)?>"></script>		
 	<?php };?>
 	
-	<script src="/js/calendrier.de/joursferies.php?annee=<?php echo $annee_deb?>"></script>
+	<script src="/js-calendrier.de/joursferies.php?annee=<?php echo $annee_deb?>"></script>
+	<script src="/dayoff?annee=<?php echo $annee_deb?>"></script>
 	<script src="/js/calendrier.de/detailsjour.js"></script>
 
 		

@@ -15,8 +15,11 @@ handlers:
 - url: /img
   static_dir: img
 
+- url: /dayoff(.*)
+  script: php/joursferies.php\1
+
 - url: /(.*)
-  script: index.php
+  script: php/index.php
 
 
 skip_files:
