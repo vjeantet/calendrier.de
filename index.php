@@ -99,9 +99,9 @@ $calendrier_url = sprintf('%s%s/%s',
 	
 	<link rel="stylesheet" type="text/css" media="" href="/css/calendrier.de/weekend.css">
 
-	<link rel="icon" type="image/png" href="/favicon.png"> 
+	<link rel="icon" type="image/png" href="/img/favicon.png"> 
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" href="/favicon.png"/>
+	<link rel="apple-touch-icon" href="/img/favicon.png"/>
 	
 	
 </head>
@@ -119,7 +119,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	</span>
 	<span id="titre" contenteditable="true"><?php echo $titre_safe ;?></span>
 	<span id='url'>&hearts; http://calendrier.de<?php echo $calendrier_url ?></span>
-	<span id='logo' ><img  src="/logo_r.png" alt="Sodadi"></span>
+	<span id='logo' ><img  src="/img/logo_r.png" alt="Sodadi"></span>
 </span>
 
 <span id='calendrier'>
