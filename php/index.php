@@ -83,7 +83,7 @@ $calendrier_url = sprintf('%s%s/%s',
 	<script src="/static/js/jquery-cookie/jquery.cookie.js"></script>
 	
 	<?php if ($titre_utf8 != null){ ?>
-		<script src="/static/js/calendrier.de/jours.php?t=<?php echo urlencode($titre_utf8)?>"></script>		
+		<!-- <script src="/static/js/calendrier.de/jours.php?t=<?php echo urlencode($titre_utf8)?>"></script> -->
 	<?php };?>
 	
 	<script src="/dayoff?annee=<?php echo $annee_deb?>"></script>
