@@ -3,7 +3,7 @@ header("Content-type: application/x-javascript");
 date_default_timezone_set('Europe/Paris'); 
 function getHolidays($year = null)
 {
-  if ($year === null)
+  if ($year === null || $year < 1970 || $year > 2037)
   {
     $year = intval(date('Y'));
   }
