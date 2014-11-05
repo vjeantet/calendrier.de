@@ -1,31 +1,11 @@
-application: calendrier-de
+application: brave-watch-750
 version: 1
-runtime: php
-api_version: 1
-threadsafe: true
+runtime: go
+api_version: go1
 
 handlers:
-
 - url: /static
   static_dir: static
 
-- url: /dayoff(.*)
-  script: php/joursferies.php\1
-
-- url: /(.*)
-  script: php/index.php
-
-skip_files:
-  - Dockerfile
-  - docker.d/.*
-  - ^(.*/)?app\.yaml
-  - ^(.*/)?app\.yml
-  - ^(.*/)?#.*#
-  - ^(.*/)?.*~
-  - ^(.*/)?\..*
-  - ^(.*/)?tests$
-  - ^(.*/)?test$
-  - ^test/(.*/)?
-  - ^README\..*
-  - \.gitignore
-  - ^\.git/.*
+- url: /.*
+  script: _go_app
