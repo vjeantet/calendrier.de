@@ -3,7 +3,7 @@ Le code source du site http://calendrier.de
 
 ## principe du site
 - Afficher 6 mois de calendrier de manière basique.
-- Personnaliser le contenu
+- Personnaliser le contenu de chaque journée
 - Imprimer sur une feuille A4 ou A3.
 - KISS style ! "Keep It Simple Stupid"
 
