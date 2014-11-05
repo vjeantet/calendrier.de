@@ -1,10 +1,10 @@
-package calendrier_de
+package main
 
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -12,9 +12,18 @@ import (
 	"github.com/vjeantet/eastertime"
 )
 
-func init() {
+func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/dayoff", handlerDayOff)
+	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+
+	fmt.Printf("listening... on :%s\n", os.Getenv("PORT"))
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	if err != nil {
+		panic(err)
+	}
 }
 
 var fns = template.FuncMap{
@@ -76,8 +85,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	tc["previousPageTime"] = time.Date(year, time.Month(month-6), 1, 0, 0, 0, 0, time.Local)
 	tc["nextPageTime"] = time.Date(year, time.Month(month+6), 1, 0, 0, 0, 0, time.Local)
 	tc["pageEndYear"] = time.Date(year, time.Month(month+5), 1, 0, 0, 0, 0, time.Local).Year()
-
-	log.Println("startDate = ", startDate)
 
 	monthsMap := make(map[time.Month][]time.Time)
 	monthMapKeys := []time.Month{}
