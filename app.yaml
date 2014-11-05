@@ -15,7 +15,6 @@ handlers:
 - url: /(.*)
   script: php/index.php
 
-
 skip_files:
   - Dockerfile
   - docker.d/.*
