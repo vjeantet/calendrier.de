@@ -12,9 +12,14 @@ import (
 	"github.com/vjeantet/eastertime"
 )
 
-func main() {
+func init() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/dayoff", handlerDayOff)
+}
+
+func main() {
+	//http.HandleFunc("/", handler)
+	//http.HandleFunc("/dayoff", handlerDayOff)
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
