@@ -3,6 +3,28 @@ var jourdetailList = {} ;
 $( document ).ready(function() {
 	jourdetailList = storageGetData()
 	jourSetCustomization(jourdetailList) ;
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+	    dd='0'+dd
+	} 
+
+	if(mm<10) {
+	    mm='0'+mm
+	} 
+
+	
+	
+	$('#j-'+dd+mm+yyyy).addClass("today") ;
+	$('#j-'+dd+mm+yyyy).on('click', function(e) {
+      $( this ).toggleClass("today today_off"); //you can list several class names 
+      e.preventDefault();
+    });
+
 	
 	$('body').on('focus', '[contenteditable]', function() {
 	    var $this = $(this);

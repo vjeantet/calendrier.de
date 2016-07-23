@@ -1,3 +1,5 @@
+
+
 .ferie{
 	padding-bottom:0px;
 	background-color:#eaeaea;
@@ -21,7 +23,8 @@
 }
 .J_S .numero_jour{color:#2960ae;}
 
-
+.today  {color:red;  background-color:#F9E07A;}
+.J_S .numero_jour{color:inherit;}
 
 /*#j-29052013 .opt1{
 	width:5px;
