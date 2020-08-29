@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
+
 	"net/http"
 	"os"
 	"strconv"
@@ -13,19 +15,25 @@ import (
 )
 
 func init() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/dayoff", handlerDayOff)
+	// http.HandleFunc("/", handler)
+	// http.HandleFunc("/dayoff", handlerDayOff)
 }
 
 func main() {
-	//http.HandleFunc("/", handler)
-	//http.HandleFunc("/dayoff", handlerDayOff)
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/dayoff", handlerDayOff)
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
-	fmt.Printf("listening... on :%s\n", os.Getenv("PORT"))
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	fmt.Printf("listening... on :%s\n", port)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}
