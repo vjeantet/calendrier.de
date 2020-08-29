@@ -1,5 +1,5 @@
 # calendrier.de
-Le code source du site http://calendrier.de
+Le code source du site https://calendrier.de
 
 ## principe du site
 - Afficher 6 mois de calendrier de manière basique.
@@ -18,8 +18,8 @@ Utilisable sur tous les navigateurs de bureau ( même IE6 ! Qui reste encore uti
 - saisie de texte dans le contenu d'une journée, du titre du calendrier
 - les personnalisations effectuées sont enregistrées dans un browser cookie 
 - les urls sont simples et "jolies"
-    - Http://calendrier.de/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
-    - http://calendrier.de/Claire
+    - https://calendrier.de/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
+    - https://calendrier.de/Claire
 Affiche les 6 mois a partir de la date du jour et "Claire" en titre de calendrier.
 
 ## fonctionalités à implémenter, un jour.
