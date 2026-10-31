@@ -48,15 +48,42 @@ function jourTextChange(id,text)
 }
 	
 function storageGetData(){
-	var cookie = $.cookie('jourdetails') ;
+	var cookie = cookieGet('jourdetails') ;
 	if (cookie != null)
 	{
-		return JSON.parse($.cookie('jourdetails')) ;	
+		try { return JSON.parse(cookie) ; } catch (e) {}
 	}
 	return {} ;
 }
 
-function storageSetData(data){$.cookie('jourdetails', JSON.stringify(data), { expires: 365, path: '/' });}
+function storageSetData(data){cookieSet('jourdetails', JSON.stringify(data), 365);}
+
+// Lecture/écriture du cookie au format de jquery-cookie 1.3.1 (remplacé) :
+// nom et valeur encodés par encodeURIComponent, '+' lu comme espace,
+// valeur entre guillemets (RFC 2068) déséchappée. Les annotations déjà
+// enregistrées restent donc lisibles.
+function cookieGet(name){
+	var cookies = document.cookie ? document.cookie.split('; ') : [] ;
+	for (var i = 0; i < cookies.length; i++) {
+		var parts = cookies[i].split('=') ;
+		try {
+			if (decodeURIComponent(parts.shift().replace(/\+/g, ' ')) !== name) { continue ; }
+			var value = decodeURIComponent(parts.join('=').replace(/\+/g, ' ')) ;
+		} catch (e) { continue ; } // cookie tiers mal encodé
+		if (value.indexOf('"') === 0) {
+			value = value.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\') ;
+		}
+		return value ;
+	}
+	return null ;
+}
+
+function cookieSet(name, value, days){
+	var expires = new Date() ;
+	expires.setDate(expires.getDate() + days) ;
+	document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value) +
+		'; expires=' + expires.toUTCString() + '; path=/; SameSite=Lax' ;
+}
 
 function jourSetCustomization(jours_list,dayoff)
 {

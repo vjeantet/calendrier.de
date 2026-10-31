@@ -12,22 +12,10 @@
 	<meta name="keywords" content="calendrier, semestre, imprimable, simple">
 	<title>Calendrier semestriel {{.startDateTime.Year}}</title>
 	
-	<script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="/static/js/JSON-js/json2.js"></script>
-	<script src="/static/js/jquery-cookie/jquery.cookie.js"></script>
+	<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
 	<script src="/static/js/calendrier.de/detailsjour.js"></script>
-	
+
 	<script src="/dayoff?annee={{.startDateTime.Year}}"></script>
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-79101-11"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-79101-11');
-	</script>
 
 
 	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/default.css">
