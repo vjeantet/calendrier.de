@@ -88,5 +88,39 @@
 	{{end}}
 	</span>
 	<div id="forkongithub"><a href="https://github.com/vjeantet/calendrier.de">Contribute on github.com/vjeantet/calendrier.de</a></div>
+	<script>
+	// Écran : grossit le calendrier (proportions conservées) jusqu'à la
+	// hauteur de la fenêtre, limité par la largeur, jamais sous la taille
+	// d'origine. Centré horizontalement. print.css neutralise zoom et marges.
+	(function () {
+		var b = document.body, de = document.documentElement, pending = false;
+		function fit() {
+			pending = false;
+			b.style.zoom = '';
+			b.style.margin = '';
+			var cs = getComputedStyle(b);
+			var h = b.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom);
+			var w = b.offsetWidth + parseFloat(cs.marginLeft) + parseFloat(cs.marginRight);
+			// centré seulement s'il y a la place (sinon auto => marge 0)
+			if (de.clientWidth > w) { b.style.margin = cs.marginTop + ' auto'; }
+			var s = Math.floor(Math.min(de.clientHeight / h, de.clientWidth / w) * 1000) / 1000;
+			// le rendu zoomé n'est pas strictement linéaire (arrondi des
+			// hauteurs de ligne) : on corrige d'après le dépassement réel
+			for (var i = 0; i < 4 && s > 1; i++) {
+				b.style.zoom = s;
+				var r = Math.min(de.clientHeight / de.scrollHeight, de.clientWidth / de.scrollWidth);
+				if (r >= 1) { return; }
+				s = Math.floor(s * r * 1000) / 1000 - 0.001;
+			}
+			if (s <= 1) { b.style.zoom = ''; }
+		}
+		function schedule() {
+			if (!pending) { pending = true; requestAnimationFrame(fit); }
+		}
+		fit();
+		window.addEventListener('load', fit);
+		window.addEventListener('resize', schedule);
+	})();
+	</script>
 </body>
 </html> 

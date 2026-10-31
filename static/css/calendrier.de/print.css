@@ -1,3 +1,115 @@
-.actions{display:none} 
-#url {margin-top:0px;}
-#forkongithub{display:none}
+/*
+ * Impression : une seule page, remplie, paysage demandé par défaut.
+ *
+ * - `size: landscape` est respecté par Chrome/Firefox ; WebKit (Safari)
+ *   l'ignore et garde l'orientation choisie dans le dialogue.
+ * - Les hauteurs ne sont pas calées sur un format de papier : la page
+ *   s'étire sur la zone imprimable réelle (marges du navigateur incluses),
+ *   chaque colonne étant découpée en 31 lignes pour rester alignée.
+ * - zoom/margin : neutralise la mise à l'échelle écran posée en JS
+ *   (style inline, d'où !important).
+ */
+@page {
+	size: A4 landscape;
+	margin: 6mm;
+}
+
+html, body {
+	margin: 0 !important;
+	padding: 0;
+	height: 100%;
+}
+
+body {
+	zoom: 1 !important;
+	width: auto;
+	/* marge de sécurité contre l'arrondi qui pousse une 2e page vide */
+	height: calc(100% - 2mm);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+
+.actions {display: none}
+#forkongithub {display: none}
+
+#entete {
+	flex: 0 0 auto;
+	width: auto;
+	height: 15mm;
+	margin-bottom: 1mm;
+}
+#url {margin-top: 0px;}
+#titre {
+	width: 100%;
+	margin-top: 4mm;
+}
+#annee {
+	font-size: 15mm;
+	line-height: 15mm;
+}
+
+#calendrier {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+}
+.mois {
+	float: none;
+	flex: 1 1 0;
+	min-width: 0;
+	width: auto;
+	margin-right: 1.5mm;
+	display: flex;
+	flex-direction: column;
+}
+.mois:last-child {margin-right: 0;}
+
+.nom_mois {
+	flex: 0 0 auto;
+	height: 5mm;
+	line-height: 5mm;
+	padding: 0.8mm 0;
+	margin-bottom: 1.5mm;
+}
+
+/* 31 lignes par colonne, quelle que soit la longueur du mois */
+.jour {
+	float: none;
+	box-sizing: border-box;
+	flex: 0 0 calc((100% - 9.2mm) / 31);
+	min-height: 0;
+	width: 100%;
+	display: flex;
+	align-items: stretch;
+}
+.mois_footer {display: none;}
+
+.nom_jour, .numero_jour {
+	float: none;
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+}
+.numero_jour {justify-content: flex-end;}
+.opt1 {display: none;}
+
+.infos_jour {
+	float: none;
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	width: auto;
+	height: auto;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.numero_semaine {
+	top: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+}
