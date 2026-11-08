@@ -10,12 +10,11 @@
 	<meta name='copyright' content='Apache License version 2.0'>
 	<meta name="description" content="un calendrier semestriel simple et imprimable.">
 	<meta name="keywords" content="calendrier, semestre, imprimable, simple">
-	<title>Calendrier semestriel {{.startDateTime.Year}}</title>
+	<title>Calendrier semestriel</title>
 	
 	<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
 	<script src="/static/js/calendrier.de/detailsjour.js"></script>
-
-	<script src="/dayoff?annee={{.startDateTime.Year}}"></script>
+	<script src="/static/js/calendrier.de/calendrier.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/default.css">
@@ -30,52 +29,24 @@
 </head>
 <body>
 	<span id='entete'>
-	<span id='annee' contenteditable="true">
-		{{.startDateTime.Year}}{{if ne .pageEndYear .startDateTime.Year}}-{{.pageEndYear}} {{end}}
-	</span>
+	<span id='annee' contenteditable="true"></span>
 	<span class="actions" style="text-align:center;position:absolute;padding-top:10px">
 		<!-- link to previous month -->
-		<a href="/{{ printf "%s%04d/%02d" .titleEncoded .previousPageTime.Year .previousPageTime.Month  }}">[&lt;&lt;]</a>
+		<a id="precedent" href="/">[&lt;&lt;]</a>
 		&nbsp;-&nbsp; 
 		<!-- link to the next month -->
-		<a href="/{{ printf "%s%04d/%02d" .titleEncoded .nextPageTime.Year .nextPageTime.Month  }}">[&gt;&gt;]</a>
+		<a id="suivant" href="/">[&gt;&gt;]</a>
 		
 		<a href="Javascript:void();" onclick="jourDeleteCustomization() ;" >reset</a>
 	</span>
-	<span id="titre" contenteditable="true">{{ .title}}</span>
-	<span id='url'>&hearts; http://calendrier.de{{.requestPATH}}</span>
+	<span id="titre" contenteditable="true"></span>
+	<span id='url'></span>
 	<span id='logo' ><img  src="/static/img/logo_r.png" alt="Sodadi"></span>
 	</span>
 
-	<span id='calendrier'>
-	{{$p := .dayLabels}}
-	{{$m := .monthLabels}}
-	{{$mm := .monthsMap}}
-	
-	{{range $index := .monthsMapOrder}}
-		{{$element := index $mm $index }}
-	
-		<span class="mois"><span class="nom_mois">{{index $m $index}}</span>
-		{{range $element}}
-			<span class="jour J_{{index $p .Weekday}}" id="j-{{.Format "02012006"}}">
-				<span class="opt1"></span>
-				<span class="numero_jour">{{.Format "02"}}</span>
-				<span class="nom_jour">{{index $p .Weekday}}</span>
-				<span class="infos_jour">
-					<span contenteditable="true" jour="{{.Format "02012006"}}">&nbsp;</span>
-					<span contenteditable="false" class="numero_semaine">
-					{{if eq .Weekday 2 }}
-						{{ . | yearweek }}
-					{{end}}
-					</span>
-				</span>
-			</span>
-		{{end}}
-		<span class="mois_footer"></span>
-		</span>
-	{{end}}
-	</span>
+	<span id='calendrier'></span>
 	<div id="forkongithub"><a href="https://github.com/vjeantet/calendrier.de">Contribute on github.com/vjeantet/calendrier.de</a></div>
+	<script>Calendrier.afficher();</script>
 	<script>
 	// Écran : grossit le calendrier (proportions conservées) jusqu'à la
 	// hauteur de la fenêtre, limité par la largeur, jamais sous la taille

@@ -1,5 +1,5 @@
 # calendrier.de
-Le code source du site https://calendrier.de
+Le code source du site https://calendrier.sodadi.fr
 
 ## principe du site
 - Afficher 6 mois de calendrier de manière basique.
@@ -18,9 +18,13 @@ Utilisable sur tous les navigateurs de bureau ( même IE6 ! Qui reste encore uti
 - saisie de texte dans le contenu d'une journée, du titre du calendrier
 - les personnalisations effectuées sont enregistrées dans un browser cookie 
 - les urls sont simples et "jolies"
-    - https://calendrier.de/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
-    - https://calendrier.de/Claire
+    - https://calendrier.sodadi.fr/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
+    - https://calendrier.sodadi.fr/Claire
 Affiche les 6 mois a partir de la date du jour et "Claire" en titre de calendrier.
+
+## fonctionnement et déploiement
+Site 100 % statique, sans build : `public/index.html` et `public/static/js/calendrier.de/calendrier.js` calculent le calendrier, les semaines ISO et les jours fériés dans le navigateur.
+Toutes les routes sont réécrites vers `index.html` par `netlify.toml`. Netlify déploie automatiquement chaque push sur `master`.
 
 ## fonctionalités à implémenter, un jour.
 - ajouter des indicateurs sur plusieurs jours

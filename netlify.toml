@@ -1,0 +1,17 @@
+# Site 100 % statique : pas de commande de build, on publie public/ tel quel.
+[build]
+  publish = "public"
+  command = ""
+
+# Un fichier existant (public/static/...) est toujours servi en priorité :
+# sans "force", les règles ci-dessous ne s'appliquent qu'aux chemins absents.
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/static/img/favicon.ico"
+  status = 200
+
+# Toutes les routes (/Claire, /2014/04, ...) sont rendues par index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
