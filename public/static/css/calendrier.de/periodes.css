@@ -66,6 +66,21 @@
 		letter-spacing:.04em;
 		color:#a1a1aa;
 	}
+	#periode-pop .aide{
+		margin:-4px 0 8px;
+		font-size:11px;
+		color:#8e8e93;
+	}
+	#periode-pop .section{
+		margin:10px 0 6px;
+		font-size:11px;
+		text-transform:uppercase;
+		letter-spacing:.04em;
+		color:#a1a1aa;
+	}
+	#periode-pop .aide + .section{
+		margin-top:0;
+	}
 	#periode-pop .libelle{
 		display:block;
 		box-sizing:border-box;
@@ -90,6 +105,23 @@
 		border:0;
 		border-radius:50%;
 		cursor:pointer;
+	}
+	/* couleurs de bande : en barrettes verticales, pour les distinguer des
+	   pastilles rondes du fond */
+	#periode-pop .grille.bandes{
+		grid-template-columns:repeat(13, 8px);
+	}
+	#periode-pop .grille.bandes .pastille{
+		width:8px;
+		height:22px;
+		border-radius:4px;
+	}
+	#periode-pop .pastille.aucune{
+		background:transparent;
+		box-shadow:inset 0 0 0 2px #8e8e93;
+	}
+	#periode-pop .pastille.aucune[aria-pressed="true"]{
+		box-shadow:inset 0 0 0 2px #8e8e93, 0 0 0 2px #2c2c2e, 0 0 0 4px #e5e5ea;
 	}
 	#periode-pop .pastille:hover{
 		filter:brightness(1.15);
