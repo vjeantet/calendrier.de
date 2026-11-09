@@ -5,6 +5,13 @@
 	.jour{
 		position:relative;
 	}
+	/* chaque .jour positionné est peint dans l'ordre du DOM : sans z-index, le
+	   fond du mercredi recouvrirait le n° de semaine du mardi qui déborde
+	   dessous. Même niveau que les bandes, ajoutées après lui, qui restent
+	   donc au-dessus. */
+	.numero_semaine{
+		z-index:1;
+	}
 	.bande{
 		position:absolute;
 		z-index:1;
