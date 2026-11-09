@@ -88,14 +88,17 @@ var Calendrier = (function () {
 
 	// Écart volontaire avec la version Go : les "/" finaux sont ignorés et un
 	// nombre invalide retombe sur la valeur par défaut au lieu de l'an 0.
+	// date : faux si le chemin n'en contient pas (semestre du mois en cours).
 	function analyserChemin(chemin, maintenant) {
-		var r = { titre: '', annee: maintenant.getFullYear(), mois: maintenant.getMonth() + 1 };
+		var r = { titre: '', annee: maintenant.getFullYear(), mois: maintenant.getMonth() + 1, date: true };
 		var p = chemin.replace(/^\/+|\/+$/g, '');
 		var s = p === '' ? [] : p.split('/');
 		var n = s.length ? entier(s[0]) : NaN;
 
-		if (s.length === 1) {
-			if (isNaN(n)) { r.titre = decode(s[0]); } else { r.annee = n; r.mois = 1; }
+		if (s.length === 0) {
+			r.date = false;
+		} else if (s.length === 1) {
+			if (isNaN(n)) { r.titre = decode(s[0]); r.date = false; } else { r.annee = n; r.mois = 1; }
 		} else if (s.length === 2) {
 			if (isNaN(n)) {
 				r.titre = decode(s[0]);
@@ -117,9 +120,15 @@ var Calendrier = (function () {
 		var q = analyserChemin(chemin, maintenant);
 		var debut = date(q.annee, q.mois - 1, 1);
 		var y = debut.getFullYear(), m = debut.getMonth();
-		var prefixe = q.titre ? encodeURIComponent(q.titre) + '/' : '';
-		function lien(d) {
-			return '/' + prefixe + pad(d.getFullYear(), 4) + '/' + pad(d.getMonth() + 1, 2);
+		// Chemin du semestre affiché (decalage 0), précédent (-6) ou suivant
+		// (+6), pour un titre donné. Le semestre affiché garde un chemin sans
+		// date s'il n'en avait pas, sauf titre numérique (il serait lu comme
+		// une année).
+		function lien(titre, decalage) {
+			var prefixe = titre ? encodeURIComponent(titre) : '';
+			if (decalage === 0 && !q.date && isNaN(entier(titre))) { return '/' + prefixe; }
+			var d = date(y, m + decalage, 1);
+			return '/' + (prefixe ? prefixe + '/' : '') + pad(d.getFullYear(), 4) + '/' + pad(d.getMonth() + 1, 2);
 		}
 
 		var html = '';
@@ -144,8 +153,7 @@ var Calendrier = (function () {
 			titre: q.titre,
 			anneeDebut: y,
 			anneeFin: date(y, m + 5, 1).getFullYear(),
-			lienPrecedent: lien(date(y, m - 6, 1)),
-			lienSuivant: lien(date(y, m + 6, 1)),
+			lien: lien,
 			html: html,
 			feries: joursFeries(y)
 		};
@@ -159,10 +167,26 @@ var Calendrier = (function () {
 		var $id = function (id) { return document.getElementById(id); };
 		document.title = 'Calendrier semestriel ' + c.anneeDebut;
 		$id('annee').textContent = c.anneeDebut + (c.anneeFin !== c.anneeDebut ? '-' + c.anneeFin + ' ' : '');
-		$id('titre').textContent = c.titre;
 		$id('url').textContent = '♥ ' + window.location.origin + decode(window.location.pathname);
-		$id('precedent').href = c.lienPrecedent;
-		$id('suivant').href = c.lienSuivant;
+		function majLiens(titre) {
+			$id('precedent').href = c.lien(titre, -6);
+			$id('suivant').href = c.lien(titre, 6);
+		}
+		majLiens(c.titre);
+
+		// Titre saisi : reporté dans l'URL (sans entrée d'historique), dans
+		// l'URL affichée et dans les liens de navigation. Une seule ligne.
+		var titre = $id('titre');
+		titre.textContent = c.titre;
+		titre.addEventListener('input', function () {
+			var t = titre.textContent.trim(), p = c.lien(t, 0);
+			history.replaceState(null, '', p);
+			$id('url').textContent = '♥ ' + window.location.origin + decode(p);
+			majLiens(t);
+		});
+		titre.addEventListener('keydown', function (e) {
+			if (e.key === 'Enter') { e.preventDefault(); titre.blur(); }
+		});
 		$id('calendrier').innerHTML = c.html;
 		$(document).ready(function () { jourSetCustomization(c.feries, true); });
 	}
