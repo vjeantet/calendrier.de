@@ -17,6 +17,7 @@ Utilisable sur tous les navigateurs de bureau ( même IE6 ! Qui reste encore uti
 - afficher 6 mois du calendrier à partir de n'importe quel mois de l'année. 
 - saisie de texte dans le contenu d'une journée, du titre du calendrier
 - les personnalisations effectuées sont enregistrées dans un browser cookie 
+- des périodes (bandes de couleur, 4 au plus par jour) se posent en glissant sur les numéros de jour ; elles sont enregistrées dans le localStorage du navigateur
 - les urls sont simples et "jolies"
     - https://calendrier.sodadi.fr/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
     - https://calendrier.sodadi.fr/Claire
@@ -27,8 +28,6 @@ Site 100 % statique, sans build : `public/index.html` et `public/static/js/calen
 Toutes les routes sont réécrites vers `index.html` par `netlify.toml`. Netlify déploie automatiquement chaque push sur `master`.
 
 ## fonctionalités à implémenter, un jour.
-- ajouter des indicateurs sur plusieurs jours
-    - visualiser un période particulière (vacances scolaires)
 - télécharger au format pdf
 - localiser le calendrier
     - jours off ( fériés, ouvrables ) belges, canadiens, algériens, sénégalais...

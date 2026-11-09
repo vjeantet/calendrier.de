@@ -132,6 +132,7 @@ function jourDeleteCustomization()
 	$('.nom_mois[data-mois]').each(function() { this.textContent = this.dataset.defaut ; }) ;
 	moisLibelleList = {} ;
 	cookieSet('moislibelles', '{}', 365) ;
+	if (typeof Periodes !== 'undefined') { Periodes.effacer() ; }
 }
 
 // Libellés de mois renommés, indexés par "mmaaaa" : un renommage ne vaut

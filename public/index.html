@@ -15,10 +15,12 @@
 	<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
 	<script src="/static/js/calendrier.de/detailsjour.js"></script>
 	<script src="/static/js/calendrier.de/calendrier.js"></script>
+	<script src="/static/js/calendrier.de/periodes.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/default.css">
 	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/couleurs.css">
+	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/periodes.css">
 	<link rel="stylesheet" type="text/css" media="print" href="/static/css/calendrier.de/print.css">
 	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/weekend.css">
 
@@ -35,7 +37,7 @@
 			<a id="precedent" href="/" title="Semestre précédent" aria-label="Semestre précédent"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
 			<a id="suivant" href="/" title="Semestre suivant" aria-label="Semestre suivant"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>
 		</span>
-		<button type="button" class="reset" onclick="if (confirm('Effacer toutes les annotations, couleurs et noms de mois du calendrier ?')) jourDeleteCustomization();" title="Effacer les annotations"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser</button>
+		<button type="button" class="reset" onclick="if (confirm('Effacer toutes les annotations, couleurs, noms de mois et périodes du calendrier ?')) jourDeleteCustomization();" title="Effacer les annotations"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser</button>
 	</span>
 	<span id="titre" contenteditable="true"></span>
 	<span id='url'></span>
@@ -48,10 +50,18 @@
 	// Écran : grossit le calendrier (proportions conservées) jusqu'à la
 	// hauteur de la fenêtre, limité par la largeur, jamais sous la taille
 	// d'origine. Centré horizontalement. print.css neutralise zoom et marges.
+	// La liste des périodes (#periodes) est exclue de la mesure : elle se
+	// place sous le calendrier, accessible en défilant, sans le rétrécir.
 	(function () {
 		var b = document.body, de = document.documentElement, pending = false;
 		function fit() {
 			pending = false;
+			var liste = document.getElementById('periodes');
+			if (liste) { liste.style.display = 'none'; }
+			ajuster();
+			if (liste) { liste.style.display = ''; }
+		}
+		function ajuster() {
 			b.style.zoom = '';
 			b.style.margin = '';
 			var cs = getComputedStyle(b);

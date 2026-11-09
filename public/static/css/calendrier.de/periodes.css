@@ -1,0 +1,207 @@
+/*		PÉRIODES (bandes de couleur sur plusieurs jours, voir periodes.js) */
+
+/* 4 rails de 5 px espacés de 2 px, posés sur le bord droit du jour, par-dessus
+   le n° de semaine. Aucune place réservée : un jour sans bande est inchangé. */
+	.jour{
+		position:relative;
+	}
+	.bande{
+		position:absolute;
+		z-index:1;
+		top:0;
+		bottom:-1px;
+		width:5px;
+		opacity:.75;
+		cursor:pointer;
+	}
+	.bande.rail-0{right:21px;}
+	.bande.rail-1{right:14px;}
+	.bande.rail-2{right:7px;}
+	.bande.rail-3{right:0;}
+	/* extrémités arrondies au vrai début et à la vraie fin ; une période
+	   coupée par un changement de mois garde un bord droit */
+	.bande.debut{
+		top:3px;
+		border-top-left-radius:3px;
+		border-top-right-radius:3px;
+	}
+	.bande.fin{
+		bottom:3px;
+		border-bottom-left-radius:3px;
+		border-bottom-right-radius:3px;
+	}
+	#calendrier.periode-focus .bande:not(.focus){
+		opacity:.15;
+	}
+
+/* sélection en cours */
+	.numero_jour,
+	.nom_jour{
+		cursor:cell;
+	}
+	.jour.periode-sel{
+		box-shadow:inset 0 0 0 999px rgba(0,122,255,.18);
+	}
+
+/* popover : même habillage que la palette du clic droit (couleurs.css) */
+	#periode-pop{
+		position:fixed;
+		z-index:10;
+		max-width:260px;
+		padding:10px 12px;
+		background:#2c2c2e;
+		color:#f2f2f7;
+		border:1px solid rgba(255,255,255,.12);
+		border-radius:12px;
+		box-shadow:0 8px 24px rgba(0,0,0,.28);
+		font:13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	}
+	#periode-pop[hidden]{
+		display:none;
+	}
+	#periode-pop .titre{
+		margin-bottom:8px;
+		font-size:11px;
+		text-transform:uppercase;
+		letter-spacing:.04em;
+		color:#a1a1aa;
+	}
+	#periode-pop .libelle{
+		display:block;
+		box-sizing:border-box;
+		width:100%;
+		margin-bottom:10px;
+		padding:5px 8px;
+		background:#1c1c1e;
+		color:#fff;
+		border:1px solid #48484a;
+		border-radius:6px;
+		font:inherit;
+	}
+	#periode-pop .grille{
+		display:grid;
+		grid-template-columns:repeat(7, 20px);
+		gap:9px;
+	}
+	#periode-pop .pastille{
+		width:20px;
+		height:20px;
+		padding:0;
+		border:0;
+		border-radius:50%;
+		cursor:pointer;
+	}
+	#periode-pop .pastille:hover{
+		filter:brightness(1.15);
+	}
+	#periode-pop .pastille[aria-pressed="true"]{
+		box-shadow:0 0 0 2px #2c2c2e, 0 0 0 4px #e5e5ea;
+	}
+	#periode-pop .pastille:focus-visible{
+		outline:2px solid #0a84ff;
+		outline-offset:2px;
+	}
+
+/* liste sous le calendrier (exclue de la mise à l'échelle écran, voir
+   index.html, et de l'impression) */
+	#periodes{
+		clear:both;
+		padding-top:16px;
+		font:13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+		color:#3f3f46;
+	}
+	#periodes .tete{
+		display:flex;
+		align-items:baseline;
+		gap:12px;
+		padding-bottom:6px;
+		border-bottom:1px solid #e4e4e7;
+	}
+	#periodes .tete .titre{
+		font-weight:600;
+		color:#2960ae;
+	}
+	#periodes .aide{
+		font-size:11px;
+		color:#a1a1aa;
+	}
+	#periodes ul{
+		display:grid;
+		grid-template-columns:repeat(3, 1fr);
+		column-gap:16px;
+		margin:0;
+		padding:4px 0 0;
+		list-style:none;
+	}
+	#periodes li{
+		display:flex;
+		align-items:center;
+		gap:8px;
+		padding:3px 6px;
+		border-radius:6px;
+		transition:background-color .3s;
+	}
+	#periodes li:hover{
+		background:#f4f4f5;
+	}
+	#periodes li.signal{
+		animation:periode-signal 1.2s ease-out;
+	}
+	@keyframes periode-signal{
+		from{background:#fde68a;}
+	}
+	#periodes .couleur{
+		flex:none;
+		width:6px;
+		height:18px;
+		padding:0;
+		border:0;
+		border-radius:3px;
+		cursor:pointer;
+	}
+	#periodes .libelle{
+		flex:1;
+		min-width:0;
+		padding:2px 0;
+		background:transparent;
+		border:0;
+		border-bottom:1px solid transparent;
+		font:inherit;
+		color:inherit;
+	}
+	#periodes .libelle:hover,
+	#periodes .libelle:focus{
+		border-bottom-color:#d4d4d8;
+		outline:none;
+	}
+	#periodes .dates{
+		display:inline;
+		font-size:11px;
+		color:#71717a;
+		white-space:nowrap;
+	}
+	#periodes .non-affichee{
+		display:inline;
+		color:#ff3b30;
+	}
+	#periodes .retirer{
+		padding:0 2px;
+		background:none;
+		border:0;
+		color:#a1a1aa;
+		cursor:pointer;
+	}
+	#periodes .retirer:hover{
+		color:#ff3b30;
+	}
+	#periodes .couleur:focus-visible,
+	#periodes .retirer:focus-visible{
+		outline:2px solid #2563eb;
+		outline-offset:2px;
+	}
+
+	@media print{
+		#periodes,
+		#periode-pop{display:none;}
+		.jour.periode-sel{box-shadow:none;}
+	}
