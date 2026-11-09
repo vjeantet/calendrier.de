@@ -48,7 +48,7 @@ Pour essayer le site tel quel depuis une tablette du réseau local, sans date fi
     - jours off ( fériés, ouvrables ) belges, canadiens, algériens, sénégalais...
 - internationaliser
     - en langue anglaise, espagnol, portugais, allemand
-- enregistrer un nom au calendrier pour le partager.
+- enregistrer un nom au calendrier pour le partager en lecture seule, réservé aux personnes authentifiées par email (voir [PARTAGE.md](PARTAGE.md)).
 - créer des thèmes 
 
 ## LICENCE
