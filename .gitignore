@@ -1,3 +1,5 @@
 /.settings/
 /.project
 /.ide*/
+/outils/captures/sortie/
+__pycache__/

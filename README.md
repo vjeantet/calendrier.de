@@ -27,6 +27,18 @@ Affiche les 6 mois a partir de la date du jour et "Claire" en titre de calendrie
 Site 100 % statique, sans build : `public/index.html` et `public/static/js/calendrier.de/calendrier.js` calculent le calendrier, les semaines ISO et les jours fériés dans le navigateur.
 Toutes les routes sont réécrites vers `index.html` par `netlify.toml`. Netlify déploie automatiquement chaque push sur `master`.
 
+## vérification visuelle
+Pas de tests automatisés : avant/après une modification de HTML ou de CSS, on compare des captures (écran et impression, date figée au 10 mars 2026, données de test dans `outils/captures/fixture.js`).
+
+    outils/captures/captures.sh outils/captures/sortie/avant   # sur le code de référence
+    outils/captures/captures.sh outils/captures/sortie/apres   # après modification
+    outils/captures/compare.sh  outils/captures/sortie/avant outils/captures/sortie/apres
+
+Prérequis : Google Chrome, python3, poppler (`pdftoppm`), ImageMagick. La capture 1000x700 n'est pas zoomée : c'est la comparaison au pixel près de la mise en page écran. Les autres passent par la mise à l'échelle de `index.html` et bougent dès que la hauteur de la page change.
+Les deux séries se comparent sur le même port (`PORT`, 8765 par défaut) : l'URL est imprimée dans l'entête.
+
+Pour essayer le site tel quel depuis une tablette du réseau local, sans date figée ni données de test : `outils/captures/serveur.py 8765 --reseau`.
+
 ## fonctionalités à implémenter, un jour.
 - télécharger au format pdf
 - localiser le calendrier
