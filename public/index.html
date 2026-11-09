@@ -30,14 +30,12 @@
 <body>
 	<span id='entete'>
 	<span id='annee' contenteditable="true"></span>
-	<span class="actions" style="text-align:center;position:absolute;padding-top:10px">
-		<!-- link to previous month -->
-		<a id="precedent" href="/">[&lt;&lt;]</a>
-		&nbsp;-&nbsp; 
-		<!-- link to the next month -->
-		<a id="suivant" href="/">[&gt;&gt;]</a>
-		
-		<a href="Javascript:void();" onclick="jourDeleteCustomization() ;" >reset</a>
+	<span class="actions">
+		<span class="nav-semestre">
+			<a id="precedent" href="/" title="Semestre précédent" aria-label="Semestre précédent"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
+			<a id="suivant" href="/" title="Semestre suivant" aria-label="Semestre suivant"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>
+		</span>
+		<button type="button" class="reset" onclick="jourDeleteCustomization();" title="Effacer les annotations"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser</button>
 	</span>
 	<span id="titre" contenteditable="true"></span>
 	<span id='url'></span>
