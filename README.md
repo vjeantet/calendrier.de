@@ -15,7 +15,7 @@ Navigateurs récents uniquement (le CSS utilise grid, `color-mix()`, `:is()`).
 - les jours ouvrés sont distinctement affichés
 - les jours fériés sont nommés
 - afficher 6 mois du calendrier à partir de n'importe quel mois de l'année. 
-- saisie de texte dans le contenu d'une journée, du titre du calendrier
+- saisie de texte dans le contenu d'une journée, du titre du calendrier ; le titre saisi est reporté dans l'URL et dans les liens vers les semestres précédent et suivant
 - les personnalisations effectuées (textes, couleurs de jour, libellés de mois) sont enregistrées dans le localStorage du navigateur ; celles d'anciennes versions, stockées en cookie, y sont reprises au premier chargement
 - des périodes (bandes de couleur, 4 au plus par jour) se posent en glissant sur les numéros de jour ; elles sont enregistrées dans le localStorage du navigateur
 - les urls sont simples et "jolies"
@@ -28,16 +28,19 @@ Site 100 % statique, sans build : `public/index.html` et `public/static/js/calen
 Toutes les routes sont réécrites vers `index.html` par `netlify.toml`. Netlify déploie automatiquement chaque push sur `master`.
 
 ## vérification visuelle
-Pas de tests automatisés : avant/après une modification de HTML ou de CSS, on compare des captures (écran et impression, date figée au 10 mars 2026, données de test dans `outils/captures/fixture.js`).
+Pas de tests automatisés : une modification de HTML ou de CSS se vérifie en comparant des captures à une référence. Les scénarios (écran à plusieurs tailles, impression sur une page) sont listés dans `outils/captures/captures.sh` ; la date est figée au 10 mars 2026 et les données de test sont dans `outils/captures/fixture.js`.
 
-    outils/captures/captures.sh outils/captures/sortie/avant   # sur le code de référence
+La référence (`outils/captures/sortie/avant`) se génère sur le code de `master`, avant de modifier ; on la régénère une fois un changement visuel validé et commité. Les captures restent locales (ignorées par git) : elles dépendent de la version de Chrome et des polices de la machine.
+
+    outils/captures/captures.sh outils/captures/sortie/avant   # référence, sur master
     outils/captures/captures.sh outils/captures/sortie/apres   # après modification
     outils/captures/compare.sh  outils/captures/sortie/avant outils/captures/sortie/apres
 
-Prérequis : Google Chrome, python3, poppler (`pdftoppm`), ImageMagick. La capture 1000x700 n'est pas zoomée : c'est la comparaison au pixel près de la mise en page écran. Les autres passent par la mise à l'échelle de `index.html` et bougent dès que la hauteur de la page change.
-Les deux séries se comparent sur le même port (`PORT`, 8765 par défaut) : l'URL est imprimée dans l'entête.
+`compare.sh` indique pour chaque capture IDENTIQUE ou le nombre de pixels qui diffèrent, et dépose dans `sortie/avant-vs-apres/` les images où les écarts sont marqués en rouge.
 
-Pour essayer le site tel quel depuis une tablette du réseau local, sans date figée ni données de test : `outils/captures/serveur.py 8765 --reseau`.
+Prérequis : Google Chrome, python3, poppler (`pdftoppm`), ImageMagick. La capture 1000x700 n'est pas zoomée : c'est la comparaison au pixel près de la mise en page écran. Les autres passent par la mise à l'échelle de `index.html` et bougent dès que la hauteur de la page change.
+
+Pour essayer le site tel quel depuis une tablette du réseau local, sans date figée ni données de test : `outils/captures/serveur.py 8000 --reseau`, puis `http://<ip du poste>:8000/`.
 
 ## fonctionalités à implémenter, un jour.
 - télécharger au format pdf

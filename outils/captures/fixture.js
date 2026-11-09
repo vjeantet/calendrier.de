@@ -2,6 +2,7 @@
 //
 // - Date figée au mardi 10 mars 2026 : "/" affiche mars-août 2026 avec le
 //   jour courant surligné, quel que soit le jour de la capture.
+// - URL de l'entête affichée sous l'origine http://calendrier.test.
 // - localStorage vidé, puis rempli si l'URL contient "?annote" : textes,
 //   fonds de jour, libellés de mois (dont un vide) et périodes (dont un jour
 //   à 4 rails, une 5e « non affichée » et une coupure de mois).
@@ -17,6 +18,13 @@
 	DateFigee.UTC = D.UTC;
 	DateFigee.parse = D.parse;
 	window.Date = DateFigee;
+
+	// URL de l'entête avec une origine fixe : les captures ne dépendent pas
+	// du port du serveur
+	document.addEventListener('DOMContentLoaded', function () {
+		var url = document.getElementById('url');
+		url.textContent = url.textContent.replace(location.origin, 'http://calendrier.test');
+	});
 
 	localStorage.clear();
 	if (location.search.indexOf('annote') < 0) { return; }
