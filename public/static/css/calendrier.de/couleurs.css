@@ -29,6 +29,11 @@
 	.jour.colore .numero_semaine{
 		background-color:transparent;
 	}
+	/* pinceau actif : le curseur signale qu'un clic colore le jour */
+	#calendrier.pinceau .jour,
+	#calendrier.pinceau .jour *{
+		cursor:cell;
+	}
 
 	#palette-jour{
 		position:fixed;

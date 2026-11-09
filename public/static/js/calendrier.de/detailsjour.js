@@ -213,6 +213,13 @@ function paletteInit()
 	document.documentElement.appendChild(pal) ;
 
 	var jourCourant = null ;
+	// Pinceau : la dernière couleur choisie s'applique ensuite au clic
+	// gauche sur un jour (un clic colore, un second retire). Choisir
+	// « Aucune couleur » range le pinceau.
+	var pinceau = null ;
+	// vrai si le mousedown en cours a servi à fermer la palette : le clic
+	// qui suit ne doit pas peindre le jour situé sous le curseur
+	var clicFermeture = false ;
 
 	function fermer() {
 		if (pal.hidden) { return ; }
@@ -248,11 +255,21 @@ function paletteInit()
 	}) ;
 
 	$(pal).on('click', '.pastille', function() {
-		if (jourCourant) { jourChangerCouleur(jourCourant, this.dataset.couleur || null) ; }
+		var nom = this.dataset.couleur || null ;
+		if (jourCourant) { jourChangerCouleur(jourCourant, nom) ; }
+		pinceau = nom ;
+		$('#calendrier').toggleClass('pinceau', pinceau !== null) ;
 		fermer() ;
 	}) ;
 
+	$('#calendrier').on('click', '.jour', function() {
+		if (!pinceau || clicFermeture) { return ; }
+		var id = this.id.slice(2) ;
+		jourChangerCouleur(id, jourCouleurList[id] === pinceau ? null : pinceau) ;
+	}) ;
+
 	$(document).on('mousedown', function(e) {
+		clicFermeture = !pal.hidden && !pal.contains(e.target) ;
 		if (!pal.contains(e.target)) { fermer() ; }
 	}).on('keydown', function(e) {
 		if (e.key === 'Escape') { fermer() ; }
