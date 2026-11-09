@@ -125,20 +125,19 @@ var Calendrier = (function () {
 		var html = '';
 		for (var i = 0; i < 6; i++) {
 			var premier = date(y, m + i, 1);
-			html += '<span class="mois"><span class="nom_mois" contenteditable="true" data-mois="' + pad(premier.getMonth() + 1, 2) + pad(premier.getFullYear(), 4) + '">' + MOIS[premier.getMonth()] + '</span>';
+			html += '<div class="mois"><div class="nom_mois" contenteditable data-mois="' + pad(premier.getMonth() + 1, 2) + pad(premier.getFullYear(), 4) + '">' + MOIS[premier.getMonth()] + '</div>';
 			for (var d = premier; d.getMonth() === premier.getMonth(); d = date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
 				var l = JOURS[d.getDay()], id = ddmmyyyy(d);
-				html += '<span class="jour J_' + l + '" id="j-' + id + '">' +
-					'<span class="opt1"></span>' +
-					'<span class="numero_jour">' + pad(d.getDate(), 2) + '</span>' +
-					'<span class="nom_jour">' + l + '</span>' +
-					'<span class="infos_jour">' +
-					'<span contenteditable="true" jour="' + id + '">&nbsp;</span>' +
-					'<span contenteditable="false" class="numero_semaine">' +
-					(d.getDay() === 2 ? pad(semaineISO(d), 2) : '') + '</span>' +
-					'</span></span>';
+				html += '<div class="jour J_' + l + '" id="j-' + id + '">' +
+					'<div class="numero_jour">' + pad(d.getDate(), 2) + '</div>' +
+					'<div class="nom_jour">' + l + '</div>' +
+					'<div class="infos_jour">' +
+					'<div contenteditable data-jour="' + id + '">&nbsp;</div>' +
+					// n° de semaine ISO, affiché sur le mardi
+					(d.getDay() === 2 ? '<div class="numero_semaine">' + pad(semaineISO(d), 2) + '</div>' : '') +
+					'</div></div>';
 			}
-			html += '<span class="mois_footer"></span></span>';
+			html += '</div>';
 		}
 
 		return {

@@ -8,7 +8,7 @@ Le code source du site https://calendrier.sodadi.fr
 - KISS style ! "Keep It Simple Stupid"
 
 ### contraintes
-Utilisable sur tous les navigateurs de bureau ( même IE6 ! Qui reste encore utilisé dans plusieurs sociétés...)
+Navigateurs récents uniquement (le CSS utilise grid, `color-mix()`, `:is()`).
 
 ## fonctions existantes
 - affichage par défaut du mois en cours et des 5 mois suivants

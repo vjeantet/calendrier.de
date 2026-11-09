@@ -46,14 +46,14 @@ $( document ).ready(function() {
 	$('body').on('focus', '[contenteditable]', function() {
 	    var $this = $(this);
 	    $this.data('before', $this.html());
-		jourTextChange($this.attr('jour'),$this.text()) ;
+		jourTextChange(this.dataset.jour,$this.text()) ;
 	}).on('blur keyup paste', '[contenteditable]', function() {
 	    var $this = $(this);
 	    if ($this.data('before') !== $this.html()) {
 	        $this.data('before', $this.html());
 	        $this.trigger('change');
 	    }
-		jourTextChange($this.attr('jour'),$this.text()) ;
+		jourTextChange(this.dataset.jour,$this.text()) ;
 	});
 });
 	
@@ -126,10 +126,10 @@ function jourSetCustomization(jours_list,dayoff)
 {
 	dayoff = typeof dayoff !== 'undefined' ? dayoff : false;
 	$.each(jours_list, function(jour, text) {
-		$('span[jour="'+jour+'"]').text(text) ;
+		$('[data-jour="'+jour+'"]').text(text) ;
 		if (dayoff == true)
 		{
-			$('span[jour="'+jour+'"]').addClass('locked');
+			$('[data-jour="'+jour+'"]').addClass('locked');
 			$('#j-'+jour).addClass('ferie');			
 		}
 	});
@@ -137,7 +137,7 @@ function jourSetCustomization(jours_list,dayoff)
 
 function jourDeleteCustomization()
 {
-	$("span[jour]").not('.locked').text('') ;
+	$('[data-jour]').not('.locked').text('') ;
 	jourdetailList = {} ;
 	storageSetJSON('jourdetails', jourdetailList) ;
 	$.each(jourCouleurList, function(id) { jourAppliquerCouleur(id, null) ; }) ;

@@ -25,90 +25,67 @@ body {
 	width: auto;
 	/* marge de sécurité contre l'arrondi qui pousse une 2e page vide */
 	height: calc(100% - 2mm);
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
 	overflow: hidden;
 	-webkit-print-color-adjust: exact;
 	print-color-adjust: exact;
 }
 
-.actions {display: none}
+.actions,
+#palette-jour,
+#periode-pop,
+#periodes {display: none;}
+.jour.periode-sel {box-shadow: none;}
 
 #entete {
-	flex: 0 0 auto;
-	width: auto;
 	height: 15mm;
 	margin-bottom: 1mm;
 }
-#url {margin-top: 0px;}
-#titre {
-	width: 100%;
-	margin-top: 4mm;
-}
+#url {top: 0;}
+#titre {top: 4mm;}
 #annee {
 	font-size: 15mm;
 	line-height: 15mm;
 }
 
 #calendrier {
-	flex: 1 1 auto;
-	min-height: 0;
-	display: flex;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	/* hauteur imposée, sinon les lignes 1fr suivent le texte le plus long */
+	grid-template-rows: minmax(0, 1fr);
+	column-gap: 1.5mm;
 }
+/* 31 lignes par colonne, quelle que soit la longueur du mois */
 .mois {
-	float: none;
-	flex: 1 1 0;
-	min-width: 0;
-	width: auto;
-	margin-right: 1.5mm;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: auto repeat(31, minmax(0, 1fr));
 }
-.mois:last-child {margin-right: 0;}
-
 .nom_mois {
-	flex: 0 0 auto;
 	height: 5mm;
 	line-height: 5mm;
 	padding: 0.8mm 0;
 	margin-bottom: 1.5mm;
 }
 
-/* 31 lignes par colonne, quelle que soit la longueur du mois */
 .jour {
-	float: none;
-	box-sizing: border-box;
-	flex: 0 0 calc((100% - 9.2mm) / 31);
-	min-height: 0;
-	width: 100%;
-	display: flex;
+	width: auto;
 	align-items: stretch;
 }
-.mois_footer {display: none;}
-
-.nom_jour, .numero_jour {
-	float: none;
-	flex: 0 0 auto;
+/* centrage vertical en flex et non en align-content : le n° de semaine et
+   les textes longs dépassent de la ligne et doivent déborder des deux côtés */
+.nom_jour,
+.numero_jour,
+.infos_jour,
+.numero_semaine {
 	display: flex;
 	align-items: center;
 }
 .numero_jour {justify-content: flex-end;}
-.opt1 {display: none;}
-
 .infos_jour {
-	float: none;
-	box-sizing: border-box;
-	flex: 1 1 auto;
-	width: auto;
-	height: auto;
-	min-width: 0;
-	display: flex;
-	align-items: center;
 	justify-content: center;
+	height: auto;
 }
 .numero_semaine {
 	top: 0;
 	bottom: 0;
-	display: flex;
-	align-items: center;
 }

@@ -1,50 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="author" content="contact@vjeantet.fr">
-	<meta http-equiv="Content-Language" content="fr">
+	<meta charset="utf-8">
 	<meta name="author" content="Valère JEANTET">
-	<meta name='copyright' content='Apache License version 2.0'>
+	<meta name="copyright" content="Apache License version 2.0">
 	<meta name="description" content="un calendrier semestriel simple et imprimable.">
 	<meta name="keywords" content="calendrier, semestre, imprimable, simple">
 	<title>Calendrier semestriel</title>
-	
+
 	<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
 	<script src="/static/js/calendrier.de/detailsjour.js"></script>
 	<script src="/static/js/calendrier.de/calendrier.js"></script>
 	<script src="/static/js/calendrier.de/periodes.js"></script>
 
+	<link rel="stylesheet" href="/static/css/calendrier.de/calendrier.css">
+	<link rel="stylesheet" href="/static/css/calendrier.de/popovers.css">
+	<link rel="stylesheet" href="/static/css/calendrier.de/periodes.css">
+	<link rel="stylesheet" href="/static/css/calendrier.de/print.css" media="print">
 
-	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/default.css">
-	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/couleurs.css">
-	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/periodes.css">
-	<link rel="stylesheet" type="text/css" media="print" href="/static/css/calendrier.de/print.css">
-	<link rel="stylesheet" type="text/css" media="" href="/static/css/calendrier.de/weekend.css">
-
-	<link rel="icon" type="image/png" href="/static/img/favicon.png"> 
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" href="/static/img/favicon.png"/>
-	
+	<link rel="icon" type="image/png" href="/static/img/favicon.png">
+	<link rel="apple-touch-icon" href="/static/img/favicon.png">
 </head>
 <body>
-	<span id='entete'>
-	<span id='annee' contenteditable="true"></span>
-	<span class="actions">
-		<span class="nav-semestre">
-			<a id="precedent" href="/" title="Semestre précédent" aria-label="Semestre précédent"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
-			<a id="suivant" href="/" title="Semestre suivant" aria-label="Semestre suivant"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>
-		</span>
-		<button type="button" class="reset" onclick="if (confirm('Effacer toutes les annotations, couleurs, noms de mois et périodes du calendrier ?')) jourDeleteCustomization();" title="Effacer les annotations"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser</button>
-	</span>
-	<span id="titre" contenteditable="true"></span>
-	<span id='url'></span>
-	<span id='logo' ><img  src="/static/img/logo_r.png" alt="Sodadi"></span>
-	</span>
+	<header id="entete">
+		<div id="annee" contenteditable></div>
+		<div class="actions">
+			<nav class="nav-semestre">
+				<a id="precedent" href="/" title="Semestre précédent" aria-label="Semestre précédent"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
+				<a id="suivant" href="/" title="Semestre suivant" aria-label="Semestre suivant"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>
+			</nav>
+			<button type="button" class="reset" onclick="if (confirm('Effacer toutes les annotations, couleurs, noms de mois et périodes du calendrier ?')) jourDeleteCustomization();" title="Effacer les annotations"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser</button>
+		</div>
+		<div id="titre" contenteditable></div>
+		<div id="url"></div>
+	</header>
 
-	<span id='calendrier'></span>
+	<main id="calendrier"></main>
 	<script>Calendrier.afficher();</script>
 	<script>
 	// Écran : grossit le calendrier (proportions conservées) jusqu'à la
@@ -89,4 +80,4 @@
 	})();
 	</script>
 </body>
-</html> 
+</html>

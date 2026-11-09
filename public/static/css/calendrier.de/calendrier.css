@@ -1,0 +1,219 @@
+/* Calendrier : page, entête, grille des mois et des jours, états des jours.
+ *
+ * Écran : tailles fixes en px ; le script de index.html met la page à
+ * l'échelle de la fenêtre (zoom sur <body>). Impression : print.css ne
+ * redéfinit que les tailles, la structure (grilles et flex) est la même.
+ */
+
+body{
+	width:990px;
+	font-family:arial;
+}
+
+/* ---------- entête ---------- */
+
+#entete{
+	position:relative;
+	height:60px;
+	margin-bottom:3px;
+}
+#annee{
+	position:absolute;
+	top:0;
+	right:5px;
+	font-size:60px;
+	font-weight:bold;
+	color:#2960ae;
+}
+#titre{
+	position:absolute;
+	top:20px;
+	left:0;
+	right:0;
+	font-size:30px;
+	font-weight:bold;
+	text-align:center;
+	color:#2960ae;
+}
+#url{
+	position:absolute;
+	top:48px;
+	left:0;
+	right:0;
+	font-size:11px;
+	font-style:italic;
+}
+
+.actions{
+	position:absolute;
+	top:4px;
+	left:0;
+	z-index:1;
+	display:flex;
+	align-items:center;
+	gap:8px;
+	font-family:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.actions svg{
+	fill:none;
+	stroke:currentColor;
+	stroke-width:2.2;
+	stroke-linecap:round;
+	stroke-linejoin:round;
+}
+.nav-semestre{
+	display:inline-flex;
+	border:1px solid #d4d4d8;
+	border-radius:999px;
+	overflow:hidden;
+	background:#fff;
+}
+.nav-semestre a{
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	width:34px;
+	height:28px;
+	color:#3f3f46;
+	transition:background-color .15s, color .15s;
+}
+.nav-semestre a + a{
+	border-left:1px solid #d4d4d8;
+}
+.nav-semestre a:hover{
+	background:#f4f4f5;
+	color:#18181b;
+}
+.actions .reset{
+	display:inline-flex;
+	align-items:center;
+	gap:5px;
+	height:28px;
+	padding:0 11px;
+	border:0;
+	border-radius:999px;
+	background:none;
+	color:#71717a;
+	font:inherit;
+	font-size:12px;
+	cursor:pointer;
+	transition:background-color .15s, color .15s;
+}
+.actions .reset:hover{
+	background:#f4f4f5;
+	color:#3f3f46;
+}
+.nav-semestre a:focus-visible,
+.actions .reset:focus-visible{
+	outline:2px solid #2563eb;
+	outline-offset:-2px;
+}
+
+/* ---------- grille ----------
+ * #calendrier : 6 colonnes .mois
+ * .mois       : .nom_mois puis un .jour par jour (31 lignes à l'impression)
+ * .jour       : .numero_jour | .nom_jour | .infos_jour (texte + n° de semaine)
+ */
+
+#calendrier{
+	display:grid;
+	grid-template-columns:repeat(6, 165px);
+}
+.nom_mois{
+	margin-bottom:5px;
+	padding:3px 0 2px;
+	border-top:2px solid black;
+	border-bottom:2px solid black;
+	text-transform:uppercase;
+}
+/* libellé vidé : un espace de largeur nulle garde la hauteur d'une ligne.
+   Pas de min-height:1lh : Safari applique deux fois le zoom de <body> à
+   l'unité lh, d'où un grand vide sous le libellé sur un grand écran. */
+.nom_mois:empty::before{
+	content:"\200b";
+}
+.jour{
+	position:relative; /* repère des bandes de période (periodes.css) */
+	display:flex;
+	align-items:flex-start;
+	width:155px;
+}
+.numero_jour{
+	flex:none;
+	width:18px;
+	padding-right:5px;
+	text-align:right;
+	font-weight:bold;
+	color:black;
+}
+.nom_jour{
+	flex:none;
+	width:16px;
+	padding-right:2px;
+}
+.infos_jour{
+	position:relative;
+	flex:1;
+	min-width:0;
+	height:15px;
+	border-bottom:1px solid gray;
+	font-size:13px;
+	text-align:center;
+	color:black;
+}
+/* Cartouche blanc posé sur la ligne, qui déborde dessous. Chaque .jour
+   positionné est peint dans l'ordre du DOM : sans z-index, le fond du
+   mercredi recouvrirait le n° du mardi. Les bandes de période ont le même
+   niveau et, ajoutées après, restent au-dessus. */
+.numero_semaine{
+	position:absolute;
+	z-index:1;
+	top:3px;
+	right:1px;
+	padding-left:4px;
+	background-color:white;
+	font-size:x-large;
+	letter-spacing:-1px;
+	color:#2960ae;
+}
+
+/* ---------- états des jours ----------
+ * L'ordre compte : .today l'emporte sur week-end et férié, et le fond
+ * colorié (.jour.colore, plus spécifique) sur tous les autres.
+ */
+
+.ferie,
+.J_S,
+.J_D{
+	background-color:#eaeaea;
+	color:#2960ae;
+}
+.J_D{
+	border-bottom:1px solid #2960ae;
+}
+.ferie .numero_jour,
+.J_D .numero_jour{
+	color:#2960ae;
+}
+/* samedi : suit la couleur du jour, rouge s'il est aujourd'hui */
+.J_S .numero_jour{
+	color:inherit;
+}
+.today{
+	background-color:#F9E07A;
+	color:red;
+}
+
+/* fond colorié au clic droit (detailsjour.js) */
+.jour.colore{
+	background-color:color-mix(in srgb, var(--couleur-jour) 35%, white);
+}
+/* le cartouche blanc dessinerait une languette sous le jour colorié */
+.jour.colore .numero_semaine{
+	background-color:transparent;
+}
+/* pinceau actif : le curseur signale qu'un clic colore le jour */
+#calendrier.pinceau .jour,
+#calendrier.pinceau .jour *{
+	cursor:cell;
+}

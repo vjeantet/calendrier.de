@@ -2,16 +2,6 @@
 
 /* 4 rails de 5 px espacés de 2 px, posés sur le bord droit du jour, par-dessus
    le n° de semaine. Aucune place réservée : un jour sans bande est inchangé. */
-	.jour{
-		position:relative;
-	}
-	/* chaque .jour positionné est peint dans l'ordre du DOM : sans z-index, le
-	   fond du mercredi recouvrirait le n° de semaine du mardi qui déborde
-	   dessous. Même niveau que les bandes, ajoutées après lui, qui restent
-	   donc au-dessus. */
-	.numero_semaine{
-		z-index:1;
-	}
 	.bande{
 		position:absolute;
 		z-index:1;
@@ -50,21 +40,11 @@
 		box-shadow:inset 0 0 0 999px rgba(0,122,255,.18);
 	}
 
-/* popover : même habillage que la palette du clic droit (couleurs.css) */
+/* popover : habillage et pastilles communs avec la palette (popovers.css) */
 	#periode-pop{
-		position:fixed;
-		z-index:10;
 		max-width:260px;
-		padding:10px 12px;
-		background:#2c2c2e;
 		color:#f2f2f7;
-		border:1px solid rgba(255,255,255,.12);
-		border-radius:12px;
-		box-shadow:0 8px 24px rgba(0,0,0,.28);
 		font:13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-	}
-	#periode-pop[hidden]{
-		display:none;
 	}
 	#periode-pop .titre{
 		margin-bottom:8px;
@@ -105,14 +85,6 @@
 		grid-template-columns:repeat(7, 20px);
 		gap:9px;
 	}
-	#periode-pop .pastille{
-		width:20px;
-		height:20px;
-		padding:0;
-		border:0;
-		border-radius:50%;
-		cursor:pointer;
-	}
 	/* couleurs de bande : en barrettes verticales, pour les distinguer des
 	   pastilles rondes du fond */
 	#periode-pop .grille.bandes{
@@ -123,28 +95,10 @@
 		height:22px;
 		border-radius:4px;
 	}
-	#periode-pop .pastille.aucune{
-		background:transparent;
-		box-shadow:inset 0 0 0 2px #8e8e93;
-	}
-	#periode-pop .pastille.aucune[aria-pressed="true"]{
-		box-shadow:inset 0 0 0 2px #8e8e93, 0 0 0 2px #2c2c2e, 0 0 0 4px #e5e5ea;
-	}
-	#periode-pop .pastille:hover{
-		filter:brightness(1.15);
-	}
-	#periode-pop .pastille[aria-pressed="true"]{
-		box-shadow:0 0 0 2px #2c2c2e, 0 0 0 4px #e5e5ea;
-	}
-	#periode-pop .pastille:focus-visible{
-		outline:2px solid #0a84ff;
-		outline-offset:2px;
-	}
 
 /* liste sous le calendrier (exclue de la mise à l'échelle écran, voir
    index.html, et de l'impression) */
 	#periodes{
-		clear:both;
 		padding-top:16px;
 		font:13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 		color:#3f3f46;
@@ -214,13 +168,11 @@
 		outline:none;
 	}
 	#periodes .dates{
-		display:inline;
 		font-size:11px;
 		color:#71717a;
 		white-space:nowrap;
 	}
 	#periodes .non-affichee{
-		display:inline;
 		color:#ff3b30;
 	}
 	#periodes .retirer{
@@ -237,10 +189,4 @@
 	#periodes .retirer:focus-visible{
 		outline:2px solid #2563eb;
 		outline-offset:2px;
-	}
-
-	@media print{
-		#periodes,
-		#periode-pop{display:none;}
-		.jour.periode-sel{box-shadow:none;}
 	}
