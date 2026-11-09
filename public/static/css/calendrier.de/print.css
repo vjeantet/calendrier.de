@@ -67,24 +67,16 @@ body {
 	margin-bottom: 1.5mm;
 }
 
-.jour {
-	width: auto;
-	align-items: stretch;
-}
-/* centrage vertical en flex et non en align-content : le n° de semaine et
-   les textes longs dépassent de la ligne et doivent déborder des deux côtés */
+.jour {width: auto;}
+/* centrage vertical en flex et non en align-content : le n° de semaine
+   dépasse de la ligne et doit déborder des deux côtés */
 .nom_jour,
 .numero_jour,
-.infos_jour,
 .numero_semaine {
 	display: flex;
 	align-items: center;
 }
 .numero_jour {justify-content: flex-end;}
-.infos_jour {
-	justify-content: center;
-	height: auto;
-}
 .numero_semaine {
 	top: 0;
 	bottom: 0;

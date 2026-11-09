@@ -135,7 +135,6 @@ body{
 .jour{
 	position:relative; /* repère des bandes de période (periodes.css) */
 	display:flex;
-	align-items:flex-start;
 	width:155px;
 }
 .numero_jour{
@@ -155,7 +154,14 @@ body{
 	position:relative;
 	flex:1;
 	min-width:0;
-	height:15px;
+	/* s'étire sur toute la ligne : le trait est au bas du jour, aligné sur
+	   son fond ; texte centré verticalement, sur toute la largeur (zone
+	   cliquable de la saisie). contain:size : un texte long déborde au lieu
+	   d'agrandir la ligne. */
+	contain:size;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
 	border-bottom:1px solid gray;
 	font-size:13px;
 	text-align:center;
