@@ -153,7 +153,7 @@ var Calendrier = (function () {
 	}
 
 	// Doit s'exécuter dans le <body>, après #calendrier et après le chargement de
-	// detailsjour.js : son handler ready (annotations du cookie) passe avant
+	// detailsjour.js : son handler ready (annotations du localStorage) passe avant
 	// celui des jours fériés, qui ont le dernier mot comme dans la version Go.
 	function afficher() {
 		var c = construire(window.location.pathname, new Date());

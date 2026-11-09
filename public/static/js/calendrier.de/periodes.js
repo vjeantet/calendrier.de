@@ -14,8 +14,7 @@
 //
 // Stockage : localStorage "jourbandes", tableau de { c, l, d, f } où c est une
 // clé de COULEURS_JOUR (detailsjour.js) et d, f les dates incluses au format
-// "aaaammjj" (comparables comme chaînes). Pas de cookie : à ~100 octets
-// encodés par période, il plafonnerait vers 40 périodes.
+// "aaaammjj" (comparables comme chaînes).
 //
 // Rails : 4 au plus par jour. Chaque période prend le premier rail libre sur
 // toute sa durée, dans l'ordre des dates de début. Le calcul porte sur toutes
@@ -310,7 +309,7 @@ var Periodes = (function () {
 		return jours.filter(function (j) { return j.cle >= sel.d && j.cle <= sel.f; });
 	}
 
-	// fond des jours sélectionnés, via detailsjour.js (cookie jourcouleurs)
+	// fond des jours sélectionnés, via detailsjour.js (localStorage jourcouleurs)
 	function colorierFond(nom) {
 		joursSel().forEach(function (j) { jourChangerCouleur(j.el.id.slice(2), nom); });
 		fermer();
@@ -470,7 +469,7 @@ var Periodes = (function () {
 	}
 
 	// Réinitialiser : toutes les périodes, tous semestres confondus, comme
-	// les annotations en cookie
+	// les annotations
 	function effacer() {
 		fermer();
 		periodes = [];

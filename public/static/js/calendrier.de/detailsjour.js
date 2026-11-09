@@ -2,8 +2,8 @@ var jourdetailList = {} ;
 var jourCouleurList = {} ;
 var moisLibelleList = {} ;
 
-// Palette du clic droit : couleurs système Apple (mode clair). Le cookie
-// stocke la clé et non la valeur, pour pouvoir retoucher une teinte sans
+// Palette du clic droit : couleurs système Apple (mode clair). Le stockage
+// conserve la clé et non la valeur, pour pouvoir retoucher une teinte sans
 // invalider les jours déjà coloriés.
 var COULEURS_JOUR = [
 	['rouge', '#FF3B30'], ['orange', '#FF9500'], ['jaune', '#FFCC00'],
@@ -14,9 +14,9 @@ var COULEURS_JOUR = [
 ] ;
 
 $( document ).ready(function() {
-	jourdetailList = storageGetData()
+	jourdetailList = storageGetJSON('jourdetails')
 	jourSetCustomization(jourdetailList) ;
-	jourCouleurList = cookieGetJSON('jourcouleurs') ;
+	jourCouleurList = storageGetJSON('jourcouleurs') ;
 	$.each(jourCouleurList, jourAppliquerCouleur) ;
 	paletteInit() ;
 	moisLibelleInit() ;
@@ -63,29 +63,49 @@ function jourTextChange(id,text)
 	// titre, année, nom de mois : éditables mais sans attribut jour
 	if (!id) { return ; }
 	jourdetailList[id] = text ;
-	storageSetData(jourdetailList) ;
+	storageSetJSON('jourdetails', jourdetailList) ;
 }
 	
-function storageGetData(){ return cookieGetJSON('jourdetails') ; }
-
-function cookieGetJSON(name){
-	var cookie = cookieGet(name) ;
-	if (cookie != null)
+// Stockage : localStorage, un objet JSON par clé ("jourdetails",
+// "jourcouleurs", "moislibelles"). Objet vide : la clé est retirée.
+// localStorage indisponible (stockage bloqué, quota) : les modifications
+// restent visibles jusqu'au rechargement, sans être conservées.
+function storageGetJSON(name){
+	var brut = null ;
+	try { brut = localStorage.getItem(name) ; } catch (e) {}
+	if (brut === null) { brut = cookieMigrer(name) ; }
+	if (brut !== null)
 	{
 		try {
-			var v = JSON.parse(cookie) ;
+			var v = JSON.parse(brut) ;
 			if (v && typeof v === 'object') { return v ; }
 		} catch (e) {}
 	}
 	return {} ;
 }
 
-function storageSetData(data){cookieSet('jourdetails', JSON.stringify(data), 365);}
+function storageSetJSON(name, data){
+	try {
+		if ($.isEmptyObject(data)) { localStorage.removeItem(name) ; }
+		else { localStorage.setItem(name, JSON.stringify(data)) ; }
+	} catch (e) {}
+}
 
-// Lecture/écriture du cookie au format de jquery-cookie 1.3.1 (remplacé) :
-// nom et valeur encodés par encodeURIComponent, '+' lu comme espace,
-// valeur entre guillemets (RFC 2068) déséchappée. Les annotations déjà
-// enregistrées restent donc lisibles.
+// Reprise unique des données des versions précédentes, stockées en cookie
+// au format de jquery-cookie 1.3.1 : nom et valeur encodés par
+// encodeURIComponent, '+' lu comme espace, valeur entre guillemets
+// (RFC 2068) déséchappée. Le cookie n'est supprimé qu'une fois la valeur
+// recopiée dans localStorage.
+function cookieMigrer(name){
+	var value = cookieGet(name) ;
+	if (value === null) { return null ; }
+	try {
+		localStorage.setItem(name, value) ;
+		document.cookie = encodeURIComponent(name) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax' ;
+	} catch (e) {}
+	return value ;
+}
+
 function cookieGet(name){
 	var cookies = document.cookie ? document.cookie.split('; ') : [] ;
 	for (var i = 0; i < cookies.length; i++) {
@@ -100,13 +120,6 @@ function cookieGet(name){
 		return value ;
 	}
 	return null ;
-}
-
-function cookieSet(name, value, days){
-	var expires = new Date() ;
-	expires.setDate(expires.getDate() + days) ;
-	document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value) +
-		'; expires=' + expires.toUTCString() + '; path=/; SameSite=Lax' ;
 }
 
 function jourSetCustomization(jours_list,dayoff)
@@ -125,13 +138,14 @@ function jourSetCustomization(jours_list,dayoff)
 function jourDeleteCustomization()
 {
 	$("span[jour]").not('.locked').text('') ;
-	storageSetData({})
+	jourdetailList = {} ;
+	storageSetJSON('jourdetails', jourdetailList) ;
 	$.each(jourCouleurList, function(id) { jourAppliquerCouleur(id, null) ; }) ;
 	jourCouleurList = {} ;
-	cookieSet('jourcouleurs', '{}', 365) ;
+	storageSetJSON('jourcouleurs', jourCouleurList) ;
 	$('.nom_mois[data-mois]').each(function() { this.textContent = this.dataset.defaut ; }) ;
 	moisLibelleList = {} ;
-	cookieSet('moislibelles', '{}', 365) ;
+	storageSetJSON('moislibelles', moisLibelleList) ;
 	if (typeof Periodes !== 'undefined') { Periodes.effacer() ; }
 }
 
@@ -140,7 +154,7 @@ function jourDeleteCustomization()
 // un libellé vidé l'est (chaîne vide).
 function moisLibelleInit()
 {
-	moisLibelleList = cookieGetJSON('moislibelles') ;
+	moisLibelleList = storageGetJSON('moislibelles') ;
 	$('.nom_mois[data-mois]').each(function() {
 		this.dataset.defaut = this.textContent ;
 		var libelle = moisLibelleList[this.dataset.mois] ;
@@ -154,7 +168,7 @@ function moisLibelleInit()
 		} else {
 			moisLibelleList[this.dataset.mois] = libelle ;
 		}
-		cookieSet('moislibelles', JSON.stringify(moisLibelleList), 365) ;
+		storageSetJSON('moislibelles', moisLibelleList) ;
 	}).on('keydown', '.nom_mois[data-mois]', function(e) {
 		// une seule ligne : Entrée valide au lieu d'insérer un saut de ligne
 		if (e.key === 'Enter') { e.preventDefault() ; this.blur() ; }
@@ -188,7 +202,7 @@ function jourChangerCouleur(id, nom)
 {
 	jourAppliquerCouleur(id, nom) ;
 	if (couleurHex(nom)) { jourCouleurList[id] = nom ; } else { delete jourCouleurList[id] ; }
-	cookieSet('jourcouleurs', JSON.stringify(jourCouleurList), 365) ;
+	storageSetJSON('jourcouleurs', jourCouleurList) ;
 }
 
 // Popover de choix de couleur, ouvert au clic droit sur un jour.

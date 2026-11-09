@@ -16,7 +16,7 @@ Utilisable sur tous les navigateurs de bureau ( même IE6 ! Qui reste encore uti
 - les jours fériés sont nommés
 - afficher 6 mois du calendrier à partir de n'importe quel mois de l'année. 
 - saisie de texte dans le contenu d'une journée, du titre du calendrier
-- les personnalisations effectuées sont enregistrées dans un browser cookie 
+- les personnalisations effectuées (textes, couleurs de jour, libellés de mois) sont enregistrées dans le localStorage du navigateur ; celles d'anciennes versions, stockées en cookie, y sont reprises au premier chargement
 - des périodes (bandes de couleur, 4 au plus par jour) se posent en glissant sur les numéros de jour ; elles sont enregistrées dans le localStorage du navigateur
 - les urls sont simples et "jolies"
     - https://calendrier.sodadi.fr/2014/04 affiche les 6 mois de l'année 2014 a partir d'avril.
