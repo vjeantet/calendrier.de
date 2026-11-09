@@ -18,6 +18,8 @@
 		border-bottom:2px solid black;
 		margin-bottom:5px;
 		padding:3px 0px 2px 0px ;
+		/* libellé vidé à l'édition : garde la hauteur d'une ligne */
+		min-height:1lh;
 	}
 	.jour{
 		float:left;

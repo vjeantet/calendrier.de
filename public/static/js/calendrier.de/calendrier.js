@@ -125,7 +125,7 @@ var Calendrier = (function () {
 		var html = '';
 		for (var i = 0; i < 6; i++) {
 			var premier = date(y, m + i, 1);
-			html += '<span class="mois"><span class="nom_mois">' + MOIS[premier.getMonth()] + '</span>';
+			html += '<span class="mois"><span class="nom_mois" contenteditable="true" data-mois="' + pad(premier.getMonth() + 1, 2) + pad(premier.getFullYear(), 4) + '">' + MOIS[premier.getMonth()] + '</span>';
 			for (var d = premier; d.getMonth() === premier.getMonth(); d = date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
 				var l = JOURS[d.getDay()], id = ddmmyyyy(d);
 				html += '<span class="jour J_' + l + '" id="j-' + id + '">' +

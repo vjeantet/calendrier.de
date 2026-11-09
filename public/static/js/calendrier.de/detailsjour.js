@@ -1,5 +1,6 @@
 var jourdetailList = {} ;
 var jourCouleurList = {} ;
+var moisLibelleList = {} ;
 
 // Palette du clic droit : couleurs système Apple (mode clair). Le cookie
 // stocke la clé et non la valeur, pour pouvoir retoucher une teinte sans
@@ -18,6 +19,7 @@ $( document ).ready(function() {
 	jourCouleurList = cookieGetJSON('jourcouleurs') ;
 	$.each(jourCouleurList, jourAppliquerCouleur) ;
 	paletteInit() ;
+	moisLibelleInit() ;
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -58,6 +60,8 @@ $( document ).ready(function() {
 	
 function jourTextChange(id,text)
 {
+	// titre, année, nom de mois : éditables mais sans attribut jour
+	if (!id) { return ; }
 	jourdetailList[id] = text ;
 	storageSetData(jourdetailList) ;
 }
@@ -125,6 +129,35 @@ function jourDeleteCustomization()
 	$.each(jourCouleurList, function(id) { jourAppliquerCouleur(id, null) ; }) ;
 	jourCouleurList = {} ;
 	cookieSet('jourcouleurs', '{}', 365) ;
+	$('.nom_mois[data-mois]').each(function() { this.textContent = this.dataset.defaut ; }) ;
+	moisLibelleList = {} ;
+	cookieSet('moislibelles', '{}', 365) ;
+}
+
+// Libellés de mois renommés, indexés par "mmaaaa" : un renommage ne vaut
+// que pour ce mois-là. Un libellé égal au nom par défaut n'est pas stocké ;
+// un libellé vidé l'est (chaîne vide).
+function moisLibelleInit()
+{
+	moisLibelleList = cookieGetJSON('moislibelles') ;
+	$('.nom_mois[data-mois]').each(function() {
+		this.dataset.defaut = this.textContent ;
+		var libelle = moisLibelleList[this.dataset.mois] ;
+		if (typeof libelle === 'string') { this.textContent = libelle ; }
+	}) ;
+
+	$('#calendrier').on('input blur', '.nom_mois[data-mois]', function() {
+		var libelle = this.textContent.trim() ;
+		if (libelle === this.dataset.defaut) {
+			delete moisLibelleList[this.dataset.mois] ;
+		} else {
+			moisLibelleList[this.dataset.mois] = libelle ;
+		}
+		cookieSet('moislibelles', JSON.stringify(moisLibelleList), 365) ;
+	}).on('keydown', '.nom_mois[data-mois]', function(e) {
+		// une seule ligne : Entrée valide au lieu d'insérer un saut de ligne
+		if (e.key === 'Enter') { e.preventDefault() ; this.blur() ; }
+	}) ;
 }
 
 function couleurHex(nom)
