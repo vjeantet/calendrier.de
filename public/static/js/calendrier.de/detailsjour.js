@@ -1,8 +1,23 @@
 var jourdetailList = {} ;
+var jourCouleurList = {} ;
+
+// Palette du clic droit : couleurs système Apple (mode clair). Le cookie
+// stocke la clé et non la valeur, pour pouvoir retoucher une teinte sans
+// invalider les jours déjà coloriés.
+var COULEURS_JOUR = [
+	['rouge', '#FF3B30'], ['orange', '#FF9500'], ['jaune', '#FFCC00'],
+	['vert', '#34C759'], ['menthe', '#00C7BE'], ['cyan', '#32ADE6'],
+	['ciel', '#5AC8FA'], ['bleu', '#007AFF'], ['indigo', '#5856D6'],
+	['violet', '#AF52DE'], ['rose', '#FF2D55'], ['brun', '#A2845E'],
+	['gris', '#8E8E93']
+] ;
 
 $( document ).ready(function() {
 	jourdetailList = storageGetData()
 	jourSetCustomization(jourdetailList) ;
+	jourCouleurList = cookieGetJSON('jourcouleurs') ;
+	$.each(jourCouleurList, jourAppliquerCouleur) ;
+	paletteInit() ;
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -47,11 +62,16 @@ function jourTextChange(id,text)
 	storageSetData(jourdetailList) ;
 }
 	
-function storageGetData(){
-	var cookie = cookieGet('jourdetails') ;
+function storageGetData(){ return cookieGetJSON('jourdetails') ; }
+
+function cookieGetJSON(name){
+	var cookie = cookieGet(name) ;
 	if (cookie != null)
 	{
-		try { return JSON.parse(cookie) ; } catch (e) {}
+		try {
+			var v = JSON.parse(cookie) ;
+			if (v && typeof v === 'object') { return v ; }
+		} catch (e) {}
 	}
 	return {} ;
 }
@@ -102,4 +122,107 @@ function jourDeleteCustomization()
 {
 	$("span[jour]").not('.locked').text('') ;
 	storageSetData({})
+	$.each(jourCouleurList, function(id) { jourAppliquerCouleur(id, null) ; }) ;
+	jourCouleurList = {} ;
+	cookieSet('jourcouleurs', '{}', 365) ;
+}
+
+function couleurHex(nom)
+{
+	for (var i = 0; i < COULEURS_JOUR.length; i++) {
+		if (COULEURS_JOUR[i][0] === nom) { return COULEURS_JOUR[i][1] ; }
+	}
+	return null ;
+}
+
+// nom inconnu ou null : retire la couleur
+function jourAppliquerCouleur(id, nom)
+{
+	var el = document.getElementById('j-' + id) ;
+	if (!el) { return ; }
+	var hex = couleurHex(nom) ;
+	if (hex) {
+		el.style.setProperty('--couleur-jour', hex) ;
+		el.classList.add('colore') ;
+	} else {
+		el.style.removeProperty('--couleur-jour') ;
+		el.classList.remove('colore') ;
+	}
+}
+
+function jourChangerCouleur(id, nom)
+{
+	jourAppliquerCouleur(id, nom) ;
+	if (couleurHex(nom)) { jourCouleurList[id] = nom ; } else { delete jourCouleurList[id] ; }
+	cookieSet('jourcouleurs', JSON.stringify(jourCouleurList), 365) ;
+}
+
+// Popover de choix de couleur, ouvert au clic droit sur un jour.
+// Rattaché à <html> et non à <body> : le zoom posé sur <body> (mise à
+// l'échelle écran) fausserait le positionnement en coordonnées viewport.
+function paletteInit()
+{
+	var pal = document.createElement('div') ;
+	pal.id = 'palette-jour' ;
+	pal.setAttribute('role', 'dialog') ;
+	pal.setAttribute('aria-label', 'Couleur du jour') ;
+	pal.hidden = true ;
+	var choix = [['', null]].concat(COULEURS_JOUR) ;
+	for (var i = 0; i < choix.length; i++) {
+		var b = document.createElement('button') ;
+		b.type = 'button' ;
+		b.className = 'pastille' + (choix[i][0] ? '' : ' aucune') ;
+		b.dataset.couleur = choix[i][0] ;
+		b.title = choix[i][0] || 'Aucune couleur' ;
+		if (choix[i][1]) { b.style.backgroundColor = choix[i][1] ; }
+		pal.appendChild(b) ;
+	}
+	document.documentElement.appendChild(pal) ;
+
+	var jourCourant = null ;
+
+	function fermer() {
+		if (pal.hidden) { return ; }
+		pal.hidden = true ;
+		jourCourant = null ;
+	}
+
+	function ouvrir(jourEl, x) {
+		jourCourant = jourEl.id.slice(2) ;
+		var actuel = jourCouleurList[jourCourant] || '' ;
+		$(pal).children().each(function() {
+			this.setAttribute('aria-pressed', this.dataset.couleur === actuel ? 'true' : 'false') ;
+		}) ;
+		pal.hidden = false ;
+		var r = jourEl.getBoundingClientRect() ;
+		var vw = document.documentElement.clientWidth ;
+		var vh = document.documentElement.clientHeight ;
+		var pw = pal.offsetWidth, ph = pal.offsetHeight, fleche = 8, marge = 6 ;
+		var left = Math.max(marge, Math.min(x - pw / 2, vw - pw - marge)) ;
+		var dessous = r.bottom + fleche + ph + marge <= vh || r.top - fleche - ph < marge ;
+		pal.classList.toggle('dessus', !dessous) ;
+		pal.style.left = left + 'px' ;
+		pal.style.top = (dessous ? r.bottom + fleche : r.top - fleche - ph) + 'px' ;
+		// la flèche pointe sur le curseur même quand le popover est recalé
+		pal.style.setProperty('--fleche-x', Math.max(14, Math.min(x - left, pw - 14)) + 'px') ;
+		var sel = pal.querySelector('[aria-pressed="true"]') ;
+		if (sel) { sel.focus({ preventScroll: true }) ; }
+	}
+
+	$('#calendrier').on('contextmenu', '.jour', function(e) {
+		e.preventDefault() ;
+		ouvrir(this, e.clientX) ;
+	}) ;
+
+	$(pal).on('click', '.pastille', function() {
+		if (jourCourant) { jourChangerCouleur(jourCourant, this.dataset.couleur || null) ; }
+		fermer() ;
+	}) ;
+
+	$(document).on('mousedown', function(e) {
+		if (!pal.contains(e.target)) { fermer() ; }
+	}).on('keydown', function(e) {
+		if (e.key === 'Escape') { fermer() ; }
+	}) ;
+	$(window).on('resize scroll blur beforeprint', fermer) ;
 }
