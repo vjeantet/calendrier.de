@@ -23,6 +23,8 @@ Une conception du partage **validée**, écrite dans `PARTAGE.md` (réécrit en 
 
 <!-- une ligne par ticket fermé : gist + lien -->
 
+- [Ce que permettent Netlify Functions et Blobs sur l'offre gratuite](issues/01-netlify-functions-blobs.md) : routage `config.path` prioritaire sur `/*` ; tout (fonctions, requêtes, déploiements) puise dans un même quota de crédits et le dépassement met tout le compte en pause ; Blobs à terme par défaut, `strong` et écritures conditionnelles possibles ; planification OK ; limitation de débit par IP/chemin seulement ; fonctions aux États-Unis en gratuit.
+
 ## Not yet specified
 
 - **Source de données unique** : forme de l'accès aux annotations qui permette à `detailsjour.js` et `periodes.js` d'afficher soit le calendrier local (par défaut, en écriture), soit un instantané chargé du serveur (asynchrone, en lecture seule). Relève peut-être de l'implémentation plutôt que d'un ticket de décision.
