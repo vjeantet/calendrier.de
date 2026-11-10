@@ -12,3 +12,5 @@ Où héberger l'API de partage et quel service d'email retenir : Netlify Functio
 À trancher avec les recherches sur Netlify et sur l'email transactionnel. Cela fixe le stockage (format des clés, index par empreinte d'email selon la cohérence offerte), les mécanismes de limitation de débit et de tâches planifiées, et les sous-traitants à déclarer.
 
 À établir avec l'auteur en début de session : l'offre Netlify du compte (offre à crédits, 300 crédits/mois, ou ancienne offre gratuite), dont dépend le coût réel. Pèsent aussi : le risque qu'un abus sur l'API mette en pause tout le compte, site statique compris, et le fait que les fonctions tournent aux États-Unis.
+
+Critères issus de la recherche sur l'email : le lien de gestion ne doit pas passer par une réécriture de suivi des clics, un plafond dur évite une facture, et la durée de conservation des adresses en clair dans les journaux du fournisseur contredit l'engagement de ne garder qu'une empreinte.

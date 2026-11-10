@@ -25,6 +25,7 @@ Une conception du partage **validée**, écrite dans `PARTAGE.md` (réécrit en 
 
 - [Ce que permettent Netlify Functions et Blobs sur l'offre gratuite](issues/01-netlify-functions-blobs.md) : routage `config.path` prioritaire sur `/*` ; tout (fonctions, requêtes, déploiements) puise dans un même quota de crédits et le dépassement met tout le compte en pause ; Blobs à terme par défaut, `strong` et écritures conditionnelles possibles ; planification OK ; limitation de débit par IP/chemin seulement ; fonctions aux États-Unis en gratuit.
 - [D'où tirer une liste d'environ 1 024 noms communs français](issues/03-liste-noms-communs.md) : Lexique 4.10 (prévalence) donne ≈ 1 450–1 550 noms après filtres et relecture humaine ; licence CC BY-SA à confirmer (incohérence BY-SA/BY-NC sur lexique.org) ; trois noms + 10–99 ≈ 36,5 à 39,5 bits selon la taille de la liste.
+- [Quel service d'email transactionnel hébergé dans l'UE](issues/02-email-transactionnel-ue.md) : réécriture des liens absente chez Scaleway TEM et Lettermint (gratuit), désactivable chez Mailjet, Sweego, Mailgun, non désactivable sur Brevo gratuit ; tout-UE : Scaleway (CB obligatoire, pas de plafond dur), Lettermint (300/mois sans CB), Sweego ; les adresses restent en clair dans les journaux du fournisseur (1 jour à illimité selon le fournisseur).
 
 ## Not yet specified
 
