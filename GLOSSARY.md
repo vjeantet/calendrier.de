@@ -7,7 +7,7 @@ Un calendrier semestriel à personnaliser et imprimer dans le navigateur, que so
 ### Calendrier et personnalisation
 
 **Calendrier** :
-Le titre et les annotations que contient le navigateur d'un auteur. Il n'est pas nommé et chaque navigateur n'en a qu'un.
+Les annotations que contient le navigateur d'un auteur. Il n'est pas nommé et chaque navigateur n'en a qu'un. Le titre n'en fait pas partie : il se choisit à l'affichage et n'est figé que dans un instantané.
 _Avoid_ : agenda, document
 
 **Annotations** :
@@ -42,6 +42,10 @@ _Avoid_ : synchroniser, enregistrer
 **Identifiant public** :
 Les mots et le nombre qui désignent un partage, comme `girafe-tambour-citron-27`.
 _Avoid_ : slug, code
+
+**Modifications non publiées** :
+L'écart entre les annotations du calendrier de l'auteur et celles de l'instantané de son partage. Le titre et le semestre affiché n'en font pas partie.
+_Avoid_ : brouillon, changements en attente
 
 **Lien public** :
 L'adresse `/@/<identifiant public>` qu'un auteur transmet aux lecteurs.
