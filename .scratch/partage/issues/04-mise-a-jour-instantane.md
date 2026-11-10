@@ -1,7 +1,7 @@
 # Comment l'instantané se met à jour
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: —
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
