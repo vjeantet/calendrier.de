@@ -12,3 +12,9 @@ Map: [Partage d'un calendrier en lecture seule](../map.md)
 Prototype grossier dans le style existant (`popovers.css`), à faire réagir, en tenant compte des décisions sur la mise à jour de l'instantané et sur la confirmation.
 
 À couvrir aussi, depuis [Comment l'instantané se met à jour](04-mise-a-jour-instantane.md) : où atterrit l'auteur après avoir ouvert le lien de gestion (sur `/@/<id>`, ou redirigé vers `/<titre>/<aaaa>/<mm>`) ; le choix « Reprendre le calendrier partagé ici » ou « Garder mes annotations » ; le rappel de ce qui partira sur le bouton « Publier les modifications ».
+
+À couvrir aussi, depuis [Confirmation de l'adresse et récupération du lien de gestion](07-confirmation-recuperation.md) :
+- l'aperçu et le bouton « Activer le partage » à l'ouverture du lien de gestion d'un partage en attente ;
+- le bouton « Gérer le partage depuis ce navigateur » à l'ouverture d'un lien de récupération, et son articulation avec le choix « Reprendre / Garder mes annotations » ;
+- le message unique d'un navigateur dont la clé a été remplacée, et la page « Ce lien de gestion n'est plus valable » ;
+- dans le popover, l'orientation « Vous avez déjà partagé ce calendrier ? J'ai déjà un lien » et la réponse identique de la récupération.

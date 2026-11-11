@@ -56,5 +56,13 @@ L'adresse personnelle, envoyée par email à l'auteur, qui porte la clé de gest
 _Avoid_ : lien d'administration, lien magique
 
 **Clé de gestion** :
-Le secret qui prouve qu'on est l'auteur d'un partage.
+Le secret qui prouve qu'on est l'auteur d'un partage. Un partage n'a qu'une clé valide à la fois : une récupération en émet une nouvelle, qui ne remplace l'ancienne que lorsque l'auteur s'en sert.
 _Avoid_ : jeton, mot de passe, token
+
+**Confirmer** :
+Faire passer un partage de *en attente* à *actif*, par un geste explicite de l'auteur sur la page ouverte par son lien de gestion. Ouvrir le lien ne suffit pas.
+_Avoid_ : valider, vérifier, activer (pour l'adresse)
+
+**Récupération** :
+La demande par laquelle un auteur reçoit à nouveau par email les liens de tous les partages rattachés à son adresse, avec des clés de gestion neuves.
+_Avoid_ : renvoi, réinitialisation, mot de passe oublié

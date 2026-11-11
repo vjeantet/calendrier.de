@@ -14,4 +14,4 @@ Quels seuils et quel mécanisme pour limiter les envois d'emails et les lectures
 - **Mécanisme** : les outils sont fixés par [Où héberger l'API et quel service d'email](06-hebergement-api.md). Il y a 2 règles `rateLimit` par IP et par chemin, sur une fenêtre de 180 s au plus : à quels chemins les attribuer ? Et des compteurs dans Blobs : clés, fenêtre, purge par la tâche quotidienne.
 - Réponse vue de l'extérieur quand une limite est atteinte (429, message dans le popover), sans révéler si une adresse est connue.
 
-Dépend de [Confirmation de l'adresse et récupération du lien de gestion](07-confirmation-recuperation.md) : un email part-il pour une adresse inconnue, et combien d'emails une récupération envoie-t-elle ?
+Fixé par [Confirmation de l'adresse et récupération du lien de gestion](07-confirmation-recuperation.md) : chaque demande envoie exactement un email (création, ou récupération, que l'adresse soit connue ou non), et aucun autre. Une récupération émet aussi une clé en attente par partage de l'adresse, ce qui écrit dans Blobs.
