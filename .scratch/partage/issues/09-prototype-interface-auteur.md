@@ -18,3 +18,5 @@ Prototype grossier dans le style existant (`popovers.css`), à faire réagir, en
 - le bouton « Gérer le partage depuis ce navigateur » à l'ouverture d'un lien de récupération, et son articulation avec le choix « Reprendre / Garder mes annotations » ;
 - le message unique d'un navigateur dont la clé a été remplacée, et la page « Ce lien de gestion n'est plus valable » ;
 - dans le popover, l'orientation « Vous avez déjà partagé ce calendrier ? J'ai déjà un lien » et la réponse identique de la récupération.
+
+À couvrir aussi, depuis [Durées de confirmation et de conservation](08-durees-conservation.md) : l'emplacement, dans le popover au moment de partager, de la phrase « Un partage en attente expire au bout de 48 h. Un partage ni publié ni consulté pendant 12 mois est supprimé. »
