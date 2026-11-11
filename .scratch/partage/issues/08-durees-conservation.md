@@ -1,7 +1,7 @@
 # Durées de confirmation et de conservation
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 06
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
