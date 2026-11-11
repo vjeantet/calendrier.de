@@ -1,7 +1,7 @@
 # Où héberger l'API et quel service d'email
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 01, 02
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
