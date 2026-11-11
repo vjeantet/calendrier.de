@@ -1,7 +1,7 @@
 # À quoi ressemble l'interface de partage pour l'auteur
 
 Type: prototype
-Status: open
+Status: claimed
 Blocked by: 04, 07
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
