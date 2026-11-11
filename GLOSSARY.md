@@ -40,7 +40,7 @@ Remplacer l'instantané d'un partage actif par l'état actuel du calendrier de l
 _Avoid_ : synchroniser, enregistrer
 
 **Identifiant public** :
-Les mots et le nombre qui désignent un partage, comme `girafe-tambour-citron-27`.
+Trois noms communs tirés d'une liste fermée et un nombre de 10 à 99, séparés par des traits d'union, qui désignent un partage, comme `girafe-tambour-citron-27`.
 _Avoid_ : slug, code
 
 **Modifications non publiées** :
