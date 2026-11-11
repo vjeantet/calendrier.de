@@ -40,9 +40,7 @@ Une conception du partage **validée**, écrite dans `PARTAGE.md` (réécrit en 
 
 ## Not yet specified
 
-- **Source de données unique** : forme de l'accès aux annotations qui permette à `detailsjour.js` et `periodes.js` d'afficher soit le calendrier local (par défaut, en écriture), soit un instantané chargé du serveur (asynchrone, en lecture seule). Doit aussi permettre de recopier un instantané dans le calendrier local (reprise par l'auteur, voir [Comment l'instantané se met à jour](issues/04-mise-a-jour-instantane.md)). Relève peut-être de l'implémentation plutôt que d'un ticket de décision.
-- **Captures** : scénarios `outils/captures/` pour une page `/@/` (écran et impression), pour la page « Données personnelles » et pour le bandeau de partage (formulaire, ligne « Partagé », modifications non publiées, messages de [limitation](issues/10-limitation-envois-lectures.md) et de [validation](issues/11-validation-instantane.md) : titre trop long, calendrier trop volumineux, refus du serveur). Les états du [prototype](issues/09-prototype-interface-auteur.md) donnent la liste.
-- **Réponses aux emails** : que devient une réponse à `partage@calendrier.vjeantet.fr` (aucune boîte, redirection vers l'alias de contact de [Contenu de la page « Données personnelles »](issues/12-page-donnees-personnelles.md), ou en-tête `Reply-To`) ? Non tranché par [Que disent les trois emails](issues/14-texte-emails.md).
+<!-- vide : le brouillard restant est devenu les tickets 15, 16 et 17 -->
 
 ## Out of scope
 
