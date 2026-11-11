@@ -39,10 +39,11 @@ Une conception du partage **validée**, écrite dans `PARTAGE.md` (réécrit en 
 - [Que disent les trois emails](issues/14-texte-emails.md) : **plus d'activation**, un partage est lisible dès sa création et supprimé si personne ne l'ouvre en 7 jours ; les 48 h ne valent plus que pour la clé en attente d'une récupération ; variante B, HTML + texte : lien public d'abord dans un encadré « À transmettre à vos lecteurs », puis le bouton « Gérer mon calendrier partagé », marqué personnel ; titre dans l'objet (40 caractères) et dans le corps, risque d'hameçonnage accepté ; dates absolues à l'heure de Paris ; expéditeur `Calendrier semestriel <partage@calendrier.vjeantet.fr>` ; prototype sur la branche `prototype/emails-partage`.
 - [Que devient une réponse aux emails](issues/15-reponses-emails.md) : `Reply-To` « Calendrier semestriel » vers l'alias de contact sur `vjeantet.fr`, car `calendrier.vjeantet.fr`, CNAME vers Netlify, ne peut pas avoir de MX ; expéditeur et pieds inchangés ; une ligne « vos messages » dans le tableau de la page « Données personnelles » ; réponses automatiques acceptées.
 - [Comment la page `/@/<id>` affiche l'instantané](issues/16-page-lecteur.md) : affichage et édition séparés dans `detailsjour.js` et `periodes.js`, l'affichage recevant les quatre clés en objet ordinaire, l'édition n'étant branchée que sur la page locale (pas de « source » à deux adaptateurs) ; lecteur sans bandeau ni édition, liste des périodes en lecture seule ; « Chargement… », puis 404 page commune, 429, « Réessayer » ; identifiant mal formé rejeté sans appel ; une requête par chargement en `no-store` ; `/@/<id>[/aaaa[/mm]]`, titre jamais dans l'URL, `<title>` avec le titre, `X-Robots-Tag` ; le lien de gestion réutilise le même affichage et « Reprendre » recopie l'objet déjà reçu.
+- [Réécrire `PARTAGE.md` en conception validée](issues/17-reecrire-partage-md.md) : `PARTAGE.md` réécrit et validé, statut « conception validée » ; décisions de la carte rassemblées avec renvoi aux tickets, 13 précisions de rédaction validées (formats d'échange, codes 401/403/502, métadonnées Blobs, `consulteLe` en `onlyIfMatch`, emails sans titre, simulation de l'API pour les captures…) ; 13 lots de travail avec dépendances, captures à ajouter, prérequis hors code et points à vérifier.
 
 ## Not yet specified
 
-<!-- vide : il ne reste que le ticket 17 -->
+<!-- vide : la carte est terminée, la conception est dans PARTAGE.md -->
 
 ## Out of scope
 

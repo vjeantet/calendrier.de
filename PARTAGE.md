@@ -1,6 +1,6 @@
 # Partage d'un calendrier en lecture seule
 
-Statut : **conception validée**, non implémentée.
+Statut : **conception validée** le 2026-11-11, non implémentée.
 
 Ce document rassemble les décisions de la carte [Partage d'un calendrier en lecture seule](.scratch/partage/map.md). Chaque section renvoie au ticket qui porte la décision et ses raisons ; en cas de doute, le ticket fait foi. Le vocabulaire est celui de [`GLOSSARY.md`](GLOSSARY.md).
 

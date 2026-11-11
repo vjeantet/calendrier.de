@@ -1,7 +1,7 @@
 # Réécrire `PARTAGE.md` en conception validée
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 15, 16
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
@@ -12,6 +12,17 @@ Réécrire `PARTAGE.md` en place, au statut « conception validée », à partir
 Le document reprend chaque décision sans la contredire, en tenant compte des révisions (plus d'activation). Il liste aussi les scénarios de captures `outils/captures/` à ajouter : page `/@/` (écran et impression), page « Données personnelles », bandeau de partage (formulaire, ligne « Partagé », modifications non publiées, messages de [limitation](10-limitation-envois-lectures.md) et de [validation](11-validation-instantane.md)). Les états du [prototype de l'interface](09-prototype-interface-auteur.md) donnent la liste. Pour la page `/@/`, les états sont ceux de [Comment la page `/@/<id>` affiche l'instantané](16-page-lecteur.md) : chargement, page commune, 429, erreur réseau, liste des périodes en lecture seule.
 
 L'agent rédige ; l'auteur relit et valide. Le ticket est résolu à la validation.
+
+## Answer
+
+[`PARTAGE.md`](../../../PARTAGE.md) est réécrit en place, au statut « conception validée », et validé par l'auteur le 2026-11-11, avec les 13 précisions listées dans les commentaires ci-dessous.
+
+- Le document reprend chaque décision de la carte en tenant compte des révisions (plus d'activation, 7 jours sans ouverture). Chaque section renvoie au ticket qui porte la décision : en cas de doute, le ticket fait foi.
+- Il découpe le travail en 13 lots avec leurs dépendances, chacun destiné à devenir un ticket `ready-for-agent` (la relecture de la liste de noms est `ready-for-human`).
+- Il liste les captures à ajouter dans `outils/captures/` : page du lecteur (écran et impression), page « Données personnelles », états du bandeau, messages de limitation et de validation, arrivée par le lien de gestion. `serveur.py` simule l'API et `fixture.js` rejoue les gestes.
+- Il liste les prérequis hors code (alias de contact, compte et DNS Sweego, variables d'environnement, suppression du site `sodadi`, relecture de la liste) et les points à vérifier à l'implémentation (`X-Robots-Tag` sur une route réécrite, `/donnees-personnelles` sans extension, licence de Lexique).
+
+Pas d'ADR : le document rassemble des décisions déjà prises, chacune réversible à faible coût.
 
 ## Comments
 
@@ -32,3 +43,5 @@ Précisions que la rédaction a dû ajouter pour qu'un agent puisse implémenter
 11. **Repli `noindex`** : si `X-Robots-Tag` ne s'applique pas à la route réécrite, une balise `<meta>` ajoutée par script.
 12. **Captures** : `serveur.py` simule l'API, `fixture.js` remplace l'origine canonique et rejoue les gestes indiqués dans l'URL ; aucun état de démonstration dans le code du site.
 13. **DNS de Sweego** : aucun enregistrement sur le nom `calendrier.vjeantet.fr` lui-même (CNAME vers Netlify) ; à confirmer au moment de vérifier le domaine.
+
+**Validé par l'auteur (2026-11-11)** : les 13 précisions sont acceptées telles quelles.
