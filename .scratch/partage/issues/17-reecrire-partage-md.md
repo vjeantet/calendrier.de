@@ -1,7 +1,7 @@
 # Réécrire `PARTAGE.md` en conception validée
 
 Type: task
-Status: open
+Status: claimed
 Blocked by: 15, 16
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
