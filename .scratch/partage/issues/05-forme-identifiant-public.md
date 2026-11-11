@@ -1,7 +1,7 @@
 # Forme de l'identifiant public
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 03
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
