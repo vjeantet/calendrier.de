@@ -1,7 +1,7 @@
 # Comment la page `/@/<id>` affiche l'instantané
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: —
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
