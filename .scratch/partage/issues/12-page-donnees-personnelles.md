@@ -77,3 +77,7 @@ Le ticket fixe le plan et les formulations sensibles. Le texte final de la page 
    Pas de pied de page sur le calendrier : la mise à l'échelle et l'impression restent intactes.
 
 Pas d'ADR : le texte et l'emplacement se changent sans coût.
+
+## Révision
+
+Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) : dans le tableau du point 5, la durée de l'instantané (et de ce qui suit le partage) devient « jusqu'à l'arrêt du partage, ou 12 mois sans publication ni consultation ; 7 jours si personne ne l'ouvre ». La ligne « 48 h pour une clé en attente » reste.

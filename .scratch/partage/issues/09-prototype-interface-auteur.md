@@ -62,3 +62,12 @@ Prototype : branche jetable `prototype/interface-partage` (commit `19d15e2`, jam
 Les textes du prototype servent de base et se reprennent à l'implémentation.
 
 Pas d'ADR : un choix d'interface se défait sans grand coût.
+
+## Révision
+
+Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) : **un partage est actif dès sa création**.
+- **Point 3** : la phrase des durées devient celle du ticket des emails.
+- **Point 4** : le bandeau dit que le calendrier est partagé et que les deux liens sont dans l'email. Il ne parle plus de 48 h. Il revient ensuite à « Partager », comme avant.
+- **Point 6** : l'état « Partage en attente » (aperçu, « Activer le partage ») disparaît. Le lien de gestion de la création suit les règles d'arrivée de [Comment l'instantané se met à jour](04-mise-a-jour-instantane.md). Le bandeau « Partage activé » ne s'affiche plus.
+
+Les autres points restent valables, dont le point 7 (récupération).

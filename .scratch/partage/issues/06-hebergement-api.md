@@ -31,3 +31,9 @@ Critères issus de la recherche sur l'email : le lien de gestion ne doit pas pas
 10. **Secrets.** La clé d'API Sweego et le secret HMAC des empreintes sont des variables d'environnement Netlify, jamais dans `netlify.toml`.
 11. **Outils de limitation disponibles.** 2 règles `rateLimit` par IP et par chemin, sur une fenêtre de 180 s au plus, plus des compteurs dans Blobs (par empreinte d'adresse, par IP). Les seuils et l'emploi des deux règles relèvent du ticket [Limitation des envois et des lectures](10-limitation-envois-lectures.md).
 12. **Sous-traitants à déclarer.** Netlify (fonctions aux États-Unis, Blobs à Francfort, DPA avec transferts hors UE) et Sweego/Mindbaz (France).
+
+## Révision
+
+Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) :
+- **Point 8** : la métadonnée `etat` disparaît, car il n'y a plus de partage en attente.
+- **Point 9** : la tâche quotidienne supprime les partages jamais ouverts 7 jours après leur création (au lieu des partages en attente expirés) et les clés en attente périmées.

@@ -28,7 +28,7 @@ La personne qui consulte un partage par son lien public, sans pouvoir le modifie
 _Avoid_ : visiteur, invité
 
 **Partage** :
-Le calendrier publié côté serveur. Il est désigné par son identifiant public et il est soit *en attente* (adresse non confirmée), soit *actif*.
+Le calendrier publié côté serveur, désigné par son identifiant public. Il est lisible par son lien public dès sa création. Si personne ne l'ouvre dans les 7 jours, il est supprimé.
 _Avoid_ : calendrier partagé (pour l'objet), publication
 
 **Instantané** :
@@ -60,7 +60,7 @@ Le secret qui prouve qu'on est l'auteur d'un partage. Un partage n'a qu'une clé
 _Avoid_ : jeton, mot de passe, token
 
 **Confirmer** :
-Faire passer un partage de *en attente* à *actif*, par un geste explicite de l'auteur sur la page ouverte par son lien de gestion. Ouvrir le lien ne suffit pas.
+Faire d'une clé de gestion en attente, émise par une récupération, la clé du partage, par un geste explicite de l'auteur sur la page ouverte par ce lien. Ouvrir le lien ne suffit pas.
 _Avoid_ : valider, vérifier, activer (pour l'adresse)
 
 **Récupération** :

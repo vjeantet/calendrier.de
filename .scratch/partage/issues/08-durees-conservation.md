@@ -21,3 +21,11 @@ Depuis [Confirmation de l'adresse et récupération du lien de gestion](07-confi
 4. **Information de l'auteur.** Aucun avertissement individuel (voir [Confirmation de l'adresse et récupération du lien de gestion](07-confirmation-recuperation.md)). La règle est dite une fois dans le popover, au moment de partager : « Un partage en attente expire au bout de 48 h. Un partage ni publié ni consulté pendant 12 mois est supprimé. » La page « Données personnelles » la reprend. L'API n'expose pas de date de suppression prévue. L'emplacement de la phrase relève de [À quoi ressemble l'interface de partage pour l'auteur](09-prototype-interface-auteur.md).
 
 Pas d'ADR : ces chiffres se changent sans coût, même après l'implémentation.
+
+## Révision
+
+Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) :
+- **Point 1** : les 48 h ne valent plus que pour la clé en attente d'une récupération. Il n'y a plus de partage en attente. Un partage que personne n'ouvre en 7 jours (pas de `consulteLe`) est supprimé par la tâche quotidienne.
+- **Point 4** : la phrase devient « Un partage que personne n'ouvre dans les 7 jours est supprimé, tout comme un partage ni publié ni consulté pendant 12 mois. »
+
+Les points 2 et 3 (activité, 12 mois) restent valables.

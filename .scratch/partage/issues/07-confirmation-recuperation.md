@@ -41,3 +41,13 @@ Point de départ : le serveur ne garde que l'**empreinte** de la clé de gestion
    - Comparaison en temps constant contre la clé active et la clé en attente.
 
 Pas d'ADR : ces décisions se défont sans grand coût avant l'implémentation.
+
+## Révision
+
+Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) : **un partage est actif dès sa création**. Ce qui change :
+- **Point 1** : il ne vaut plus que pour la clé en attente d'une récupération. Le lien de gestion de la création porte une clé déjà active, et l'ouvrir ne demande aucun clic de confirmation.
+- **Point 5** : la liste n'a plus de partages en attente. Un partage jamais ouvert y figure avec sa date de suppression (7 jours après la création).
+- **Point 8** : la cause « jamais confirmé à temps » devient « jamais ouvert en 7 jours ».
+- **Point 9** : `GET` sans clé renvoie l'instantané dès la création. `POST …/confirmer` sert seulement à activer une clé en attente.
+
+Les points 2, 3, 4, 6 et 7 restent valables.
