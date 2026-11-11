@@ -1,7 +1,7 @@
 # Confirmation de l'adresse et récupération du lien de gestion
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: —
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
