@@ -15,4 +15,4 @@ Ce qu'elle doit couvrir est déjà fixé :
 - **Pas de suivi** des ouvertures ni des clics : l'enregistrement `t.calendrier.vjeantet.fr` n'est jamais créé.
 - **Comment tout supprimer** : « Arrêter le partage » efface tout immédiatement.
 
-Reste à trancher : la base légale et sa formulation ; un contact pour exercer ses droits, et lequel ; la mention ou non des journaux propres à Netlify (adresses IP des requêtes), dont la durée de conservation sur l'offre gratuite reste à vérifier ; l'emplacement de la page (route, lien depuis le popover et le pied de page) ; le niveau de détail (texte court ou inventaire complet).
+Reste à trancher : la base légale et sa formulation ; un contact pour exercer ses droits, et lequel ; la mention ou non des journaux propres à Netlify (adresses IP des requêtes), dont la durée de conservation sur l'offre gratuite reste à vérifier ; l'emplacement de la page (route, lien depuis le formulaire du bandeau de partage et le pied de page) ; le niveau de détail (texte court ou inventaire complet).
