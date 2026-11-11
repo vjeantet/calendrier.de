@@ -1,0 +1,125 @@
+/* PROTOTYPE JETABLE : interface de partage (voir prototype-partage.js). */
+
+/* ---------- commun : contenu ---------- */
+:is(#proto-pop, #proto-bandeau, #proto-fenetre){
+	font:13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.proto-titre{ font-weight:600; font-size:14px; margin-bottom:6px; }
+.proto-texte{ margin:0 0 8px; }
+.proto-resume{ margin:0 0 8px; padding:6px 8px; border-radius:6px; font-size:12px; }
+.proto-note, .proto-pied{ margin:8px 0 0; font-size:11px; }
+.proto-pied{ padding-top:8px; }
+.proto-email{
+	display:block; box-sizing:border-box; width:100%; margin:0 0 10px;
+	padding:6px 8px; border-radius:6px; font:inherit;
+}
+.proto-actions{ display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start; }
+.proto-action{ display:flex; flex-direction:column; gap:3px; max-width:100%; }
+.proto-action small{ font-size:11px; max-width:260px; }
+:is(#proto-pop, #proto-bandeau, #proto-fenetre) button{
+	font:inherit; padding:6px 12px; border-radius:999px; cursor:pointer; border:0;
+}
+.proto-principal{ background:#0a84ff; color:#fff; }
+.proto-danger{ background:#ff453a; color:#fff; }
+.proto-lienpublic{
+	display:flex; align-items:center; gap:8px; margin:0 0 8px;
+	padding:4px 4px 4px 10px; border-radius:8px;
+	font:12px ui-monospace, Menlo, monospace;
+}
+.proto-lienpublic span{ flex:1; white-space:nowrap; }
+:is(#proto-pop, #proto-bandeau, #proto-fenetre) .proto-copier{ padding:3px 10px; font-size:12px; }
+
+/* bouton « Partager » : même style que « Réinitialiser » ; pastille orange */
+.proto-partager{ position:relative; }
+.proto-pastille{
+	position:absolute; top:4px; right:4px; width:8px; height:8px;
+	border-radius:50%; background:#ff9f0a;
+}
+
+/* ---------- sombre : A (popover), C (fenêtre et popover sous l'URL) ---------- */
+:is(#proto-pop, #proto-fenetre){
+	color:#f2f2f7; background:#2c2c2e;
+	border:1px solid rgba(255,255,255,.12); border-radius:12px;
+	box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+:is(#proto-pop, #proto-fenetre) .proto-texte{ color:#e5e5ea; }
+:is(#proto-pop, #proto-fenetre) :is(.proto-note, .proto-pied, .proto-action small){ color:#8e8e93; }
+:is(#proto-pop, #proto-fenetre) .proto-pied{ border-top:1px solid #3a3a3c; }
+:is(#proto-pop, #proto-fenetre) a{ color:#64d2ff; }
+:is(#proto-pop, #proto-fenetre) :is(.proto-resume, .proto-lienpublic){ background:#1c1c1e; color:#d1d1d6; }
+:is(#proto-pop, #proto-fenetre) .proto-email{ background:#1c1c1e; color:#fff; border:1px solid #48484a; }
+:is(#proto-pop, #proto-fenetre) .proto-second{ background:#3a3a3c; color:#f2f2f7; }
+:is(#proto-pop, #proto-fenetre) .proto-copier{ background:#3a3a3c; color:#f2f2f7; }
+
+#proto-pop{ position:fixed; z-index:20; width:340px; padding:12px 14px; }
+#proto-pop::before{
+	content:''; position:absolute; left:var(--fleche-x, 30px); top:-6px;
+	width:10px; height:10px; margin-left:-6px; background:inherit;
+	border:1px solid rgba(255,255,255,.12); border-right:0; border-bottom:0;
+	transform:rotate(45deg);
+}
+
+#proto-fond{
+	position:fixed; inset:0; z-index:20; display:grid; place-items:center;
+	background:rgba(0,0,0,.35);
+}
+#proto-fenetre{ width:420px; padding:18px 20px; }
+#proto-fenetre .proto-titre{ font-size:16px; }
+
+/* C : ligne d'URL devenue lien public */
+.proto-url-active{ cursor:pointer; }
+.proto-url-active:hover{ text-decoration:underline; }
+.proto-etiquette{
+	margin-left:6px; padding:0 6px; border-radius:999px; font-style:normal;
+	background:#e8f5e9; color:#1b5e20;
+}
+.proto-etiquette.proto-orange{ background:#fff3e0; color:#9a4a00; }
+
+/* ---------- B : bandeau clair sous l'entête, dans la page ---------- */
+#proto-bandeau{
+	display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+	margin:6px 0 6px; padding:6px 10px;
+	border:1px solid #d4d4d8; border-radius:10px; background:#fafafa; color:#27272a;
+}
+#proto-bandeau .proto-bloc{ flex:1; }
+#proto-bandeau .proto-bloc{ display:grid; grid-template-columns:auto 1fr; column-gap:14px; align-items:start; }
+#proto-bandeau .proto-bloc > *{ grid-column:2; }
+#proto-bandeau .proto-bloc > .proto-titre{ grid-column:1; grid-row:1 / span 6; margin:2px 0 0; }
+#proto-bandeau .proto-email{ width:300px; border:1px solid #d4d4d8; margin-bottom:6px; }
+#proto-bandeau :is(.proto-note, .proto-pied, .proto-action small){ color:#71717a; }
+#proto-bandeau .proto-pied{ padding-top:0; }
+#proto-bandeau .proto-resume{ background:#f4f4f5; display:inline-block; }
+#proto-bandeau .proto-second, #proto-bandeau .proto-copier{ background:#e4e4e7; color:#27272a; }
+#proto-bandeau .proto-lienpublic{ margin:0; background:#f4f4f5; }
+#proto-bandeau .proto-droite{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+#proto-bandeau .proto-droite small{ font-size:11px; color:#71717a; }
+#proto-bandeau .proto-muet{ color:#71717a; font-size:12px; }
+#proto-bandeau .proto-arreter{ padding:4px 10px; font-size:12px; }
+#proto-bandeau .proto-point{ width:8px; height:8px; border-radius:50%; background:#30d158; }
+#proto-bandeau.proto-modifie{ background:#fff8ec; border-color:#ffd8a8; }
+#proto-bandeau.proto-modifie .proto-point{ background:#ff9f0a; }
+#proto-bandeau.proto-public{ background:#eef5ff; border-color:#bcd4f6; }
+
+/* ---------- /@/<id> en lecture seule ---------- */
+.proto-lecture #calendrier{ pointer-events:none; }
+.proto-inexistant{
+	grid-column:1 / -1; padding:120px 0; text-align:center;
+	font:18px system-ui, sans-serif; color:#52525b;
+}
+
+/* ---------- barre de choix, hors maquette ---------- */
+#proto-barre{
+	position:fixed; z-index:30; left:50%; bottom:14px; transform:translateX(-50%);
+	display:flex; align-items:center; gap:8px; padding:6px 10px;
+	background:#111; color:#fff; border-radius:999px;
+	box-shadow:0 6px 20px rgba(0,0,0,.4);
+	font:12px system-ui, sans-serif; white-space:nowrap;
+}
+#proto-barre button{ background:#333; color:#fff; border:0; border-radius:50%; width:24px; height:24px; cursor:pointer; }
+#proto-barre select{ font:inherit; background:#222; color:#fff; border:1px solid #444; border-radius:6px; padding:2px 4px; }
+#proto-barre .proto-marque{ color:#ff9f0a; font-weight:700; letter-spacing:.05em; }
+#proto-barre .proto-sep{ width:1px; height:16px; background:#444; }
+
+@media print{
+	#proto-barre, #proto-pop, #proto-fond, #proto-bandeau, .proto-partager, .proto-etiquette{ display:none !important; }
+}
