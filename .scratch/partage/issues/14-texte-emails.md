@@ -71,3 +71,7 @@ L'auteur l'a tranché en réagissant au prototype : **un partage est actif dès 
 Les formulations se reprennent à l'implémentation ; la structure, l'ordre des liens et les dates sont fixés ici.
 
 Pas d'ADR : le texte se change sans coût. Le retrait de l'activation se défait aussi avant l'implémentation.
+
+## Complément
+
+[Que devient une réponse aux emails](15-reponses-emails.md) : les trois emails portent un `Reply-To` « Calendrier semestriel » vers l'alias de contact sur `vjeantet.fr`. L'expéditeur et les pieds ne changent pas.

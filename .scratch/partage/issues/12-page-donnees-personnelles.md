@@ -81,3 +81,5 @@ Pas d'ADR : le texte et l'emplacement se changent sans coût.
 ## Révision
 
 Révisé par [Que disent les trois emails](14-texte-emails.md#pas-dactivation) : dans le tableau du point 5, la durée de l'instantané (et de ce qui suit le partage) devient « jusqu'à l'arrêt du partage, ou 12 mois sans publication ni consultation ; 7 jours si personne ne l'ouvre ». La ligne « 48 h pour une clé en attente » reste.
+
+Complété par [Que devient une réponse aux emails](15-reponses-emails.md) : le tableau du point 5 gagne la ligne « Vos messages, réponses aux emails du partage comprises / ma boîte email (OVH, France) / le temps de traiter votre demande ». L'alias de contact est aussi le `Reply-To` des trois emails.
