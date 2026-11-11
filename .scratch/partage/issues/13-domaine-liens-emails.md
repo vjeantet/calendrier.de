@@ -1,7 +1,7 @@
 # Sur quel domaine pointent les liens envoyés par email
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: —
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
