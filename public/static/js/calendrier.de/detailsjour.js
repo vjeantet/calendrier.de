@@ -14,7 +14,7 @@ var COULEURS_JOUR = [
 ] ;
 
 $( document ).ready(function() {
-	jourdetailList = storageGetJSON('jourdetails')
+	jourdetailList = jourdetailsCharger() ;
 	jourSetCustomization(jourdetailList) ;
 	jourCouleurList = storageGetJSON('jourcouleurs') ;
 	$.each(jourCouleurList, jourAppliquerCouleur) ;
@@ -43,27 +43,43 @@ $( document ).ready(function() {
     });
 
 	
+	// enregistre seulement si le contenu a changé depuis le focus ou le
+	// dernier enregistrement : cliquer dans un jour n'écrit rien
 	$('body').on('focus', '[contenteditable]', function() {
 	    var $this = $(this);
 	    $this.data('before', $this.html());
-		jourTextChange(this.dataset.jour,$this.text()) ;
 	}).on('blur keyup paste', '[contenteditable]', function() {
 	    var $this = $(this);
 	    if ($this.data('before') !== $this.html()) {
 	        $this.data('before', $this.html());
 	        $this.trigger('change');
+			jourTextChange(this.dataset.jour,$this.text()) ;
 	    }
-		jourTextChange(this.dataset.jour,$this.text()) ;
 	});
 });
 	
 	
+// Un texte vide une fois rogné (espaces, insécables compris : la case
+// neuve contient &nbsp;) retire le jour au lieu d'être enregistré.
 function jourTextChange(id,text)
 {
 	// titre, année, nom de mois : éditables mais sans attribut jour
 	if (!id) { return ; }
-	jourdetailList[id] = text ;
+	if (text.trim() === '') { delete jourdetailList[id] ; }
+	else { jourdetailList[id] = text ; }
 	storageSetJSON('jourdetails', jourdetailList) ;
+}
+
+// Lecture des textes de jour, purgée des entrées vides laissées par les
+// versions précédentes (enregistrées au simple clic dans un jour).
+function jourdetailsCharger()
+{
+	var liste = storageGetJSON('jourdetails'), purge = false ;
+	$.each(liste, function(id, text) {
+		if (typeof text === 'string' && text.trim() === '') { delete liste[id] ; purge = true ; }
+	}) ;
+	if (purge) { storageSetJSON('jourdetails', liste) ; }
+	return liste ;
 }
 	
 // Stockage : localStorage, un objet JSON par clé ("jourdetails",
