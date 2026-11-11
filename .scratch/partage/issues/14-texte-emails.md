@@ -1,7 +1,7 @@
 # Que disent les trois emails
 
 Type: prototype
-Status: open
+Status: claimed
 Blocked by: 13
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
