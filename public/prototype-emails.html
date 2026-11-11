@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<!--
+PROTOTYPE JETABLE : texte des trois emails du partage.
+Ticket : .scratch/partage/issues/14-texte-emails.md
+Ne doit jamais arriver sur master.
+
+  outils/captures/serveur.py 8000
+  http://127.0.0.1:8000/prototype-emails.html?variant=A&cas=creation
+
+Trois variantes (?variant=A|B|C) × cinq cas (?cas=…). Chaque email est montré
+comme dans une messagerie : en-têtes (De, À, Objet), puis le rendu HTML ou le
+texte brut, en largeur ordinateur ou téléphone.
+
+A « Texte seul »   : text/plain uniquement, liens nus sur leur propre ligne,
+                     titre hors de l'objet.
+B « Bouton + encadré » : HTML + texte, un gros bouton pour le lien de gestion,
+                     le lien public dans un encadré « À transmettre », titre
+                     dans l'objet.
+C « Un seul lien » : HTML + texte, très court ; l'email ne porte QUE le lien
+                     de gestion. Le lien public n'est jamais envoyé : il
+                     s'affiche dans le bandeau une fois le partage activé.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTOTYPE · emails du partage</title>
+<style>
+	body{ margin:0; background:#e9ecf1; font-family:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:#222; }
+	#client{ max-width:760px; margin:24px auto 8px; background:#fff; border:1px solid #c9ced6; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+	#client.telephone{ max-width:380px; }
+	#entetes{ padding:14px 18px; border-bottom:1px solid #e1e4ea; font-size:14px; line-height:1.6; }
+	#entetes .objet{ font-size:18px; font-weight:600; margin-bottom:6px; overflow-wrap:anywhere; }
+	#entetes .lbl{ color:#777; display:inline-block; width:80px; }
+	#entetes .exp b{ font-weight:600; }
+	#onglets{ display:flex; gap:4px; padding:8px 18px 0; border-bottom:1px solid #e1e4ea; font-size:13px; }
+	#onglets button{ border:1px solid #d5d9e0; border-bottom:none; background:#f4f6f9; padding:5px 10px; border-radius:5px 5px 0 0; cursor:pointer; }
+	#onglets button.actif{ background:#fff; font-weight:600; }
+	#onglets button:disabled{ opacity:.45; cursor:default; }
+	#onglets .info{ margin-left:auto; color:#888; align-self:center; }
+	#corps iframe{ width:100%; border:0; display:block; }
+	#corps pre{ margin:0; padding:18px; font:13px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+	#apercu{ max-width:760px; margin:0 auto 90px; font-size:12px; color:#666; padding:0 4px; }
+	#client.telephone + #apercu{ max-width:380px; }
+
+	/* barre de choix (hors maquette) */
+	#proto-barre{ position:fixed; left:50%; bottom:14px; transform:translateX(-50%); display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:center;
+		background:#1b1b1f; color:#fff; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.35); font-size:13px; z-index:9; max-width:calc(100vw - 32px); }
+	#proto-barre button, #proto-barre select{ background:#333; color:#fff; border:1px solid #555; border-radius:6px; padding:3px 7px; font-size:13px; cursor:pointer; }
+	#proto-barre .marque{ background:#e3342f; padding:1px 6px; border-radius:4px; font-weight:700; font-size:11px; }
+	#proto-barre .sep{ width:1px; height:18px; background:#555; }
+</style>
+</head>
+<body>
+<div id="client">
+	<div id="entetes"></div>
+	<div id="onglets">
+		<button type="button" data-vue="html">HTML</button>
+		<button type="button" data-vue="texte">Texte brut</button>
+		<span class="info"></span>
+	</div>
+	<div id="corps"></div>
+</div>
+<div id="apercu"></div>
+
+<script>
+(function () {
+	'use strict';
+	var P = new URLSearchParams(location.search);
+
+	// ---------- données de démonstration ----------
+
+	var BASE = 'https://calendrier.vjeantet.fr';
+	var DOMAINE = 'calendrier.vjeantet.fr';
+	var DONNEES = BASE + '/donnees-personnelles';
+	var A_QUI = 'claire.martin@exemple.fr';
+
+	function partage(titre, id, cle, etat, info) {
+		return { titre: titre, id: id, publique: BASE + '/@/' + id, gestion: BASE + '/@/' + id + '#cle=' + cle, etat: etat, info: info };
+	}
+	// création : le partage est en attente, la clé expire 48 h après l'envoi (mercredi 11 novembre 2026, 17 h 48)
+	var CLAIRE_ATTENTE = partage('Claire', 'girafe-tambour-citron-27', 'Zp3kQ9vR2mX7tL0aB8cY4w', 'attente',
+		{ expire: 'vendredi 13 novembre à 17 h 48' });
+	// récupération : clés neuves ; celle d'un partage actif expire 48 h après l'envoi,
+	// celle d'un partage en attente garde le délai compté depuis la création
+	var CLAIRE_ACTIF = partage('Claire', 'girafe-tambour-citron-27', 'q8WnE2sKd0LhV5xJ1uRa7g', 'actif',
+		{ publie: '3 novembre 2026', expire: 'vendredi 13 novembre à 17 h 48' });
+	var JUDO = partage('Club de judo — saison 2026-2027', 'lampe-orage-violon-63', 'Mb4Yt7cQ2pZr9nHs6dKe1w', 'attente',
+		{ expire: 'jeudi 12 novembre à 21 h 10' });
+	var LONG = partage('Planning de garde partagée des enfants entre les deux maisons, vacances scolaires et jours fériés inclus', 'poivre-navire-ecorce-41', 'Xc9Lp2vG7kTa0mWq5sNb3j', 'actif',
+		{ publie: '14 septembre 2026', expire: 'vendredi 13 novembre à 17 h 48' });
+	var HOSTILE = partage('Votre colis est bloqué : réglez 1,99 € sur www.colis-relivraison.com', 'ancre-moulin-tulipe-58', 'Hd6Ra1wZ8yPq3cLm0tVf2k', 'attente',
+		{ expire: 'vendredi 13 novembre à 17 h 48' });
+
+	var CAS = [
+		['creation', 'Création : confirmer le partage', { type: 'creation', p: CLAIRE_ATTENTE }],
+		['recuperation-un', 'Récupération : un partage actif', { type: 'recuperation', ps: [CLAIRE_ACTIF] }],
+		['recuperation-trois', 'Récupération : trois partages (dont un en attente, un titre de 100 caractères)', { type: 'recuperation', ps: [CLAIRE_ACTIF, JUDO, LONG] }],
+		['aucun', 'Récupération : adresse sans partage', { type: 'aucun' }],
+		['hostile', 'Création par un tiers, titre piégé (abus)', { type: 'creation', p: HOSTILE }]
+	];
+
+	// ---------- outils ----------
+
+	function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+	function court(s, n) { return s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s; }
+	function sansSchema(u) { return u.replace(/^https:\/\//, ''); }
+	function pluriel(n, s) { return n + ' ' + s + (n > 1 ? 's' : ''); }
+
+	// ---------- variante A : texte seul ----------
+
+	var PIED_A_CREATION = [
+		'-- ',
+		'Vous recevez cet email parce que cette adresse a été saisie sur',
+		DOMAINE + '. Si ce n\'est pas vous, ignorez-le : rien ne sera',
+		'partagé, et tout sera effacé dans 48 h.',
+		'Données personnelles : ' + DONNEES
+	];
+	var PIED_A_RECUP = [
+		'-- ',
+		'Vous recevez cet email parce que quelqu\'un a demandé, sur',
+		DOMAINE + ', les liens de cette adresse. Si ce n\'est pas vous,',
+		'ignorez-le : vos liens actuels restent valables.',
+		'Données personnelles : ' + DONNEES
+	];
+
+	function varianteA(c) {
+		var r = { nom: 'Calendrier semestriel', adresse: 'partage@' + DOMAINE, html: null };
+		var t;
+		if (c.type === 'creation') {
+			r.objet = 'Activez le partage de votre calendrier';
+			t = [
+				'Bonjour,',
+				'',
+				'Vous avez demandé à partager en lecture seule le calendrier',
+				'« ' + c.p.titre + ' ».',
+				'',
+				'Pour l\'activer, ouvrez ce lien dans le navigateur où vous l\'avez',
+				'préparé, puis cliquez sur « Activer le partage » :',
+				'',
+				c.p.gestion,
+				'',
+				'Ce lien de gestion est personnel : il permet de publier et',
+				'd\'arrêter le partage. Ne le transmettez pas. Il expire le',
+				c.p.info.expire + ' (heure de Paris).',
+				'',
+				'Une fois le partage activé, transmettez à vos lecteurs ce lien',
+				'public :',
+				'',
+				c.p.publique,
+				''
+			].concat(PIED_A_CREATION);
+		} else if (c.type === 'recuperation') {
+			r.objet = 'Vos liens de gestion';
+			t = [
+				'Bonjour,',
+				'',
+				(c.ps.length > 1 ? 'Voici les ' + c.ps.length + ' calendriers partagés' : 'Voici le calendrier partagé') + ' avec cette adresse.',
+				''
+			];
+			c.ps.forEach(function (p, i) {
+				t.push((i + 1) + '. « ' + p.titre + ' »');
+				t.push(p.etat === 'actif'
+					? '   Publié le ' + p.info.publie + '.'
+					: '   En attente : à activer avant le ' + p.info.expire + '.');
+				t.push('   Lien public, à transmettre :');
+				t.push('   ' + p.publique);
+				t.push('   Lien de gestion, personnel (expire le ' + p.info.expire + ') :');
+				t.push('   ' + p.gestion);
+				t.push('');
+			});
+			t = t.concat([
+				'Ces liens de gestion sont neufs. Ouvrez-en un et cliquez sur',
+				'« Gérer le partage depuis ce navigateur » : ce navigateur pourra',
+				'publier, et ceux qui avaient un lien plus ancien ne le pourront',
+				'plus. Tant que vous ne cliquez pas, rien ne change.',
+				''
+			]).concat(PIED_A_RECUP);
+		} else {
+			r.objet = 'Aucun calendrier partagé avec cette adresse';
+			t = [
+				'Bonjour,',
+				'',
+				'Aucun calendrier partagé n\'est rattaché à cette adresse.',
+				'',
+				'Il a peut-être été partagé avec une autre adresse, arrêté, ou',
+				'supprimé après 12 mois sans publication ni consultation. Il',
+				'n\'a pas non plus été activé dans les 48 h, s\'il était en attente.',
+				'',
+				'Vos annotations, elles, sont toujours dans votre navigateur.',
+				'Pour partager à nouveau : ' + BASE,
+				''
+			].concat(PIED_A_RECUP.slice(0, 2)).concat([
+				DOMAINE + ', les liens de cette adresse. Si ce n\'est pas vous,',
+				'ignorez-le.',
+				'Données personnelles : ' + DONNEES
+			]);
+		}
+		r.texte = t.join('\n');
+		return r;
+	}
+
+	// ---------- variante B : bouton + encadré ----------
+
+	var BLEU = '#2960ae';
+	function cadreB(contenu, pied) {
+		return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>' +
+			'<body style="margin:0;background:#f4f6f9;font-family:Arial,Helvetica,sans-serif;color:#222;">' +
+			'<div style="max-width:560px;margin:0 auto;padding:20px 14px;">' +
+			'<div style="font-size:15px;font-weight:bold;color:' + BLEU + ';margin-bottom:12px;">Calendrier semestriel</div>' +
+			'<div style="background:#fff;border:1px solid #dfe3ea;border-radius:8px;padding:22px 20px;font-size:15px;line-height:1.5;">' + contenu + '</div>' +
+			'<div style="font-size:12px;color:#777;line-height:1.5;margin-top:14px;padding:0 4px;">' + pied +
+			' <a href="' + DONNEES + '" style="color:#777;">Données personnelles</a></div>' +
+			'</div></body></html>';
+	}
+	function boutonB(lien, texte) {
+		return '<p style="margin:18px 0 8px;"><a href="' + esc(lien) + '" style="display:inline-block;background:' + BLEU +
+			';color:#fff;text-decoration:none;font-weight:bold;padding:11px 18px;border-radius:6px;">' + esc(texte) + '</a></p>';
+	}
+	function encadreB(p, attente) {
+		return '<div style="border:1px solid #9cc79c;background:#f1f8f1;border-radius:6px;padding:10px 12px;margin-top:18px;">' +
+			'<div style="font-size:12px;font-weight:bold;color:#2e6b2e;text-transform:uppercase;letter-spacing:.04em;">À transmettre à vos lecteurs</div>' +
+			'<div style="font-family:Menlo,Consolas,monospace;font-size:14px;margin:4px 0;word-break:break-all;">' + esc(sansSchema(p.publique)) + '</div>' +
+			'<div style="font-size:13px;color:#555;">' + (attente ? 'Il fonctionnera dès que le partage sera activé.' : 'Lecture seule : ce lien ne permet pas de modifier le calendrier.') + '</div>' +
+			'</div>';
+	}
+	var NOTE_PERSO = 'Ce bouton est personnel : il permet de publier et d\'arrêter le partage. Ne transférez pas cet email.';
+
+	function varianteB(c) {
+		var r = { nom: 'Calendrier semestriel', adresse: 'partage@' + DOMAINE };
+		var h, t;
+		if (c.type === 'creation') {
+			r.objet = '« ' + court(c.p.titre, 40) + ' » : activez votre partage';
+			h = '<h1 style="font-size:20px;margin:0 0 10px;color:' + BLEU + ';">Activez le partage de « ' + esc(c.p.titre) + ' »</h1>' +
+				'<p style="margin:0;">Ouvrez ce bouton dans le navigateur où vous avez préparé le calendrier, puis cliquez sur « Activer le partage ».</p>' +
+				boutonB(c.p.gestion, 'Gérer mon calendrier partagé') +
+				'<p style="margin:0;font-size:13px;color:#555;">' + NOTE_PERSO + ' À activer avant le ' + esc(c.p.info.expire) + ' (heure de Paris).</p>' +
+				encadreB(c.p, true);
+			r.html = cadreB(h, 'Vous recevez cet email parce que cette adresse a été saisie sur ' + DOMAINE + '. Si ce n\'est pas vous, ignorez-le : rien ne sera partagé, et tout sera effacé dans 48 h.');
+			t = [
+				'Activez le partage de « ' + c.p.titre + ' »',
+				'',
+				'Ouvrez ce lien dans le navigateur où vous avez préparé le',
+				'calendrier, puis cliquez sur « Activer le partage » :',
+				c.p.gestion,
+				'',
+				'Ce lien est personnel : il permet de publier et d\'arrêter le',
+				'partage. Ne transférez pas cet email. À activer avant le',
+				c.p.info.expire + ' (heure de Paris).',
+				'',
+				'À TRANSMETTRE À VOS LECTEURS (fonctionnera dès l\'activation) :',
+				c.p.publique,
+				'',
+				'-- ',
+				'Vous recevez cet email parce que cette adresse a été saisie sur',
+				DOMAINE + '. Si ce n\'est pas vous, ignorez-le.',
+				'Données personnelles : ' + DONNEES
+			];
+		} else if (c.type === 'recuperation') {
+			r.objet = c.ps.length > 1 ? 'Vos ' + c.ps.length + ' calendriers partagés' : 'Votre calendrier partagé « ' + court(c.ps[0].titre, 40) + ' »';
+			h = '<h1 style="font-size:20px;margin:0 0 10px;color:' + BLEU + ';">' + (c.ps.length > 1 ? 'Vos ' + c.ps.length + ' calendriers partagés' : 'Votre calendrier partagé') + '</h1>' +
+				'<p style="margin:0;">Chaque bouton est un lien de gestion neuf. Il ne remplace l\'ancien que lorsque vous cliquez sur « Gérer le partage depuis ce navigateur ». Les navigateurs qui avaient un lien plus ancien perdent alors le droit de publier.</p>';
+			t = [(c.ps.length > 1 ? 'Vos ' + c.ps.length + ' calendriers partagés' : 'Votre calendrier partagé'), '',
+				'Chaque lien de gestion est neuf. Il ne remplace l\'ancien que',
+				'lorsque vous cliquez sur « Gérer le partage depuis ce navigateur ».', ''];
+			c.ps.forEach(function (p) {
+				var etat = p.etat === 'actif' ? 'Publié le ' + p.info.publie : '<b style="color:#b35c00;">En attente</b> : à activer avant le ' + p.info.expire;
+				h += '<div style="border-top:1px solid #e3e6ec;margin-top:20px;padding-top:16px;">' +
+					'<div style="font-size:17px;font-weight:bold;overflow-wrap:anywhere;">« ' + esc(p.titre) + ' »</div>' +
+					'<div style="font-size:13px;color:#555;">' + etat + '</div>' +
+					boutonB(p.gestion, 'Gérer ce calendrier') +
+					'<div style="font-size:12px;color:#777;">Lien valable jusqu\'au ' + esc(p.info.expire) + '.</div>' +
+					encadreB(p, p.etat !== 'actif') + '</div>';
+				t.push('« ' + p.titre + ' »');
+				t.push(p.etat === 'actif' ? 'Publié le ' + p.info.publie : 'En attente : à activer avant le ' + p.info.expire);
+				t.push('Gérer (personnel, jusqu\'au ' + p.info.expire + ') :');
+				t.push(p.gestion);
+				t.push('À transmettre à vos lecteurs :');
+				t.push(p.publique);
+				t.push('');
+			});
+			h += '<p style="margin:18px 0 0;font-size:13px;color:#555;">' + NOTE_PERSO + '</p>';
+			r.html = cadreB(h, 'Vous recevez cet email parce que quelqu\'un a demandé, sur ' + DOMAINE + ', les liens de cette adresse. Si ce n\'est pas vous, ignorez-le : vos liens actuels restent valables.');
+			t = t.concat(['Ces liens sont personnels. Ne transférez pas cet email.', '', '-- ',
+				'Vous recevez cet email parce que quelqu\'un a demandé les liens',
+				'de cette adresse. Si ce n\'est pas vous, ignorez-le.',
+				'Données personnelles : ' + DONNEES]);
+		} else {
+			r.objet = 'Aucun calendrier partagé avec cette adresse';
+			h = '<h1 style="font-size:20px;margin:0 0 10px;color:' + BLEU + ';">Aucun calendrier partagé</h1>' +
+				'<p style="margin:0 0 10px;">Aucun calendrier partagé n\'est rattaché à cette adresse.</p>' +
+				'<p style="margin:0 0 10px;font-size:14px;color:#555;">Il a peut-être été partagé avec une autre adresse, arrêté, supprimé après 12 mois sans publication ni consultation, ou jamais activé.</p>' +
+				'<p style="margin:0;">Vos annotations sont toujours dans votre navigateur. Vous pouvez partager à nouveau :</p>' +
+				boutonB(BASE, 'Ouvrir mon calendrier');
+			r.html = cadreB(h, 'Vous recevez cet email parce que quelqu\'un a demandé, sur ' + DOMAINE + ', les liens de cette adresse. Si ce n\'est pas vous, ignorez-le.');
+			t = ['Aucun calendrier partagé', '', 'Aucun calendrier partagé n\'est rattaché à cette adresse.', '',
+				'Il a peut-être été partagé avec une autre adresse, arrêté,',
+				'supprimé après 12 mois sans publication ni consultation, ou',
+				'jamais activé.', '',
+				'Vos annotations sont toujours dans votre navigateur. Pour',
+				'partager à nouveau : ' + BASE, '', '-- ',
+				'Vous recevez cet email parce que quelqu\'un a demandé les liens',
+				'de cette adresse. Si ce n\'est pas vous, ignorez-le.',
+				'Données personnelles : ' + DONNEES];
+		}
+		r.texte = t.join('\n');
+		return r;
+	}
+
+	// ---------- variante C : un seul lien ----------
+
+	function cadreC(contenu) {
+		return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>' +
+			'<body style="margin:0;font-family:Arial,Helvetica,sans-serif;color:#222;font-size:15px;line-height:1.55;">' +
+			'<div style="max-width:520px;padding:20px 18px;">' + contenu +
+			'<p style="margin:26px 0 0;font-size:12px;color:#777;">' + DOMAINE + ' · <a href="' + DONNEES + '" style="color:#777;">Données personnelles</a></p>' +
+			'</div></body></html>';
+	}
+	function lienC(p) {
+		return '<a href="' + esc(p.gestion) + '" style="color:#2960ae;font-weight:bold;">Gérer « ' + esc(p.titre) + ' »</a>';
+	}
+
+	function varianteC(c) {
+		var r = { nom: DOMAINE, adresse: 'partage@' + DOMAINE };
+		var h, t;
+		if (c.type === 'creation') {
+			r.objet = 'Votre lien de gestion';
+			h = '<p style="margin:0 0 14px;">Pour activer le partage, ouvrez ce lien dans le navigateur où vous avez préparé le calendrier :</p>' +
+				'<p style="margin:0 0 14px;font-size:17px;">' + lienC(c.p) + '</p>' +
+				'<p style="margin:0 0 14px;">Ce lien est votre clé : il permet de publier et d\'arrêter le partage. Gardez cet email et ne le transférez pas. Il expire le ' + esc(c.p.info.expire) + ' s\'il n\'est pas utilisé.</p>' +
+				'<p style="margin:0 0 14px;">Le lien à transmettre à vos lecteurs s\'affichera sur votre calendrier une fois le partage activé.</p>' +
+				'<p style="margin:0;font-size:13px;color:#555;">Vous n\'avez rien demandé ? Ignorez cet email : rien ne sera partagé.</p>';
+			t = ['Pour activer le partage, ouvrez ce lien dans le navigateur où',
+				'vous avez préparé le calendrier « ' + c.p.titre + ' » :', '', c.p.gestion, '',
+				'Ce lien est votre clé : il permet de publier et d\'arrêter le',
+				'partage. Gardez cet email et ne le transférez pas. Il expire le',
+				c.p.info.expire + ' s\'il n\'est pas utilisé.', '',
+				'Le lien à transmettre à vos lecteurs s\'affichera sur votre',
+				'calendrier une fois le partage activé.', '',
+				'Vous n\'avez rien demandé ? Ignorez cet email : rien ne sera partagé.', '',
+				'-- ', DOMAINE + ' · Données personnelles : ' + DONNEES];
+		} else if (c.type === 'recuperation') {
+			r.objet = c.ps.length > 1 ? 'Vos liens de gestion' : 'Votre lien de gestion';
+			h = '<p style="margin:0 0 14px;">Ouvrez le lien du calendrier à gérer depuis ce navigateur :</p><ul style="margin:0 0 14px;padding-left:20px;">';
+			t = ['Ouvrez le lien du calendrier à gérer depuis ce navigateur :', ''];
+			c.ps.forEach(function (p) {
+				var etat = p.etat === 'actif' ? 'publié le ' + p.info.publie : 'en attente, à activer avant le ' + p.info.expire;
+				h += '<li style="margin:0 0 10px;overflow-wrap:anywhere;">' + lienC(p) + '<br><span style="font-size:13px;color:#555;">' + esc(etat) + '</span></li>';
+				t.push('« ' + p.titre + ' » (' + etat + ')');
+				t.push(p.gestion);
+				t.push('');
+			});
+			h += '</ul><p style="margin:0 0 14px;">Ces liens sont neufs. Celui que vous utilisez remplace l\'ancien : les autres navigateurs perdent alors le droit de publier. Ils expirent le vendredi 13 novembre à 17 h 48 s\'ils ne sont pas utilisés.</p>' +
+				'<p style="margin:0;font-size:13px;color:#555;">Vous n\'avez rien demandé ? Ignorez cet email : vos liens actuels restent valables.</p>';
+			t = t.concat(['Ces liens sont neufs. Celui que vous utilisez remplace l\'ancien :',
+				'les autres navigateurs perdent alors le droit de publier.', '',
+				'Vous n\'avez rien demandé ? Ignorez cet email : vos liens actuels',
+				'restent valables.', '', '-- ', DOMAINE + ' · Données personnelles : ' + DONNEES]);
+		} else {
+			r.objet = 'Aucun calendrier partagé avec cette adresse';
+			h = '<p style="margin:0 0 14px;">Aucun calendrier partagé n\'est rattaché à cette adresse. Il a peut-être été partagé avec une autre adresse, arrêté, ou supprimé faute d\'activation ou d\'activité.</p>' +
+				'<p style="margin:0 0 14px;">Vos annotations restent dans votre navigateur : <a href="' + BASE + '" style="color:#2960ae;">' + DOMAINE + '</a></p>' +
+				'<p style="margin:0;font-size:13px;color:#555;">Vous n\'avez rien demandé ? Ignorez cet email.</p>';
+			t = ['Aucun calendrier partagé n\'est rattaché à cette adresse. Il a',
+				'peut-être été partagé avec une autre adresse, arrêté, ou supprimé',
+				'faute d\'activation ou d\'activité.', '',
+				'Vos annotations restent dans votre navigateur : ' + BASE, '',
+				'Vous n\'avez rien demandé ? Ignorez cet email.', '',
+				'-- ', DOMAINE + ' · Données personnelles : ' + DONNEES];
+		}
+		r.html = cadreC(h);
+		r.texte = t.join('\n');
+		return r;
+	}
+
+	// ---------- affichage ----------
+
+	var VARIANTES = { A: ['Texte seul', varianteA], B: ['Bouton + encadré', varianteB], C: ['Un seul lien', varianteC] };
+	var variante = VARIANTES[P.get('variant')] ? P.get('variant') : 'A';
+	var casId = CAS.some(function (x) { return x[0] === P.get('cas'); }) ? P.get('cas') : 'creation';
+	var cas = CAS.filter(function (x) { return x[0] === casId; })[0];
+	var mail = VARIANTES[variante][1](cas[2]);
+	var vue = mail.html ? (P.get('vue') || 'html') : 'texte';
+	var telephone = P.get('ecran') === 'telephone';
+
+	function aller(cle, val) {
+		P.set(cle, val);
+		location.search = P.toString();
+	}
+
+	document.getElementById('client').classList.toggle('telephone', telephone);
+	document.getElementById('entetes').innerHTML =
+		'<div class="objet">' + esc(mail.objet) + '</div>' +
+		'<div class="exp"><span class="lbl">De</span><b>' + esc(mail.nom) + '</b> &lt;' + esc(mail.adresse) + '&gt;</div>' +
+		'<div><span class="lbl">À</span>' + A_QUI + '</div>';
+
+	var onglets = document.getElementById('onglets');
+	onglets.querySelector('[data-vue="html"]').disabled = !mail.html;
+	onglets.querySelector('[data-vue="' + vue + '"]').classList.add('actif');
+	onglets.querySelector('.info').textContent = mail.html ? 'multipart/alternative (HTML + texte)' : 'text/plain seulement';
+	onglets.addEventListener('click', function (e) {
+		var b = e.target.closest('button');
+		if (b && !b.disabled) { aller('vue', b.getAttribute('data-vue')); }
+	});
+
+	var corps = document.getElementById('corps');
+	if (vue === 'html') {
+		var f = document.createElement('iframe');
+		f.srcdoc = mail.html;
+		f.onload = function () { f.style.height = f.contentDocument.documentElement.scrollHeight + 'px'; };
+		corps.appendChild(f);
+	} else {
+		var pre = document.createElement('pre');
+		pre.textContent = mail.texte;
+		corps.appendChild(pre);
+	}
+	document.getElementById('apercu').textContent =
+		'Objet : ' + mail.objet.length + ' caractères · texte brut : ' + mail.texte.length + ' caractères · ' +
+		(mail.texte.match(/#cle=/g) || []).length + ' lien(s) de gestion · ' +
+		((mail.texte.match(/\/@\/[a-z0-9-]+(?!#)(?=\s|$)/gm) || []).length) + ' lien(s) public(s) dans le texte';
+
+	// ---------- barre de choix (hors maquette) ----------
+
+	var cles = Object.keys(VARIANTES), iv = cles.indexOf(variante);
+	var ic = CAS.findIndex(function (x) { return x[0] === casId; });
+	var b = document.createElement('div');
+	b.id = 'proto-barre';
+	b.innerHTML = '<span class="marque">PROTOTYPE</span>' +
+		'<button type="button" data-v="-1" title="Variante précédente (←)">◀</button>' +
+		'<b>' + variante + ' (' + VARIANTES[variante][0] + ')</b>' +
+		'<button type="button" data-v="1" title="Variante suivante (→)">▶</button>' +
+		'<span class="sep"></span>' +
+		'<button type="button" data-c="-1" title="Cas précédent (↑)">▲</button>' +
+		'<select>' + CAS.map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === casId ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join('') + '</select>' +
+		'<button type="button" data-c="1" title="Cas suivant (↓)">▼</button>' +
+		'<span class="sep"></span>' +
+		'<button type="button" data-ecran title="Largeur (T)">' + (telephone ? '🖥 Ordinateur' : '📱 Téléphone') + '</button>';
+	document.body.appendChild(b);
+	function variant(d) { aller('variant', cles[(iv + d + cles.length) % cles.length]); }
+	function etape(d) { aller('cas', CAS[(ic + d + CAS.length) % CAS.length][0]); }
+	b.addEventListener('click', function (e) {
+		var t = e.target.closest('button');
+		if (!t) { return; }
+		if (t.hasAttribute('data-v')) { variant(+t.getAttribute('data-v')); }
+		if (t.hasAttribute('data-c')) { etape(+t.getAttribute('data-c')); }
+		if (t.hasAttribute('data-ecran')) { aller('ecran', telephone ? 'ordinateur' : 'telephone'); }
+	});
+	b.querySelector('select').addEventListener('change', function () { aller('cas', this.value); });
+	document.addEventListener('keydown', function (ev) {
+		var t = ev.target;
+		if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) { return; }
+		if (ev.key === 'ArrowLeft') { variant(-1); }
+		if (ev.key === 'ArrowRight') { variant(1); }
+		if (ev.key === 'ArrowUp') { ev.preventDefault(); etape(-1); }
+		if (ev.key === 'ArrowDown') { ev.preventDefault(); etape(1); }
+		if (ev.key === 't' || ev.key === 'T') { aller('ecran', telephone ? 'ordinateur' : 'telephone'); }
+	});
+})();
+</script>
+</body>
+</html>
