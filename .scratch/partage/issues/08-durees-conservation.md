@@ -9,4 +9,4 @@ Map: [Partage d'un calendrier en lecture seule](../map.md)
 
 Quelles durées retenir et comment les appliquer : 48 h pour confirmer un partage en attente, suppression après 12 mois sans publication ni consultation (proposés) ?
 
-Dépend de l'hébergement : tâche planifiée ou nettoyage paresseux à la lecture, coût d'écrire `consulteLe` à chaque lecture publique (quotas d'écriture), prévenir ou non l'auteur avant suppression (ce qui suppose de garder l'adresse, que l'on ne conserve qu'en empreinte).
+Le mécanisme est fixé par [Où héberger l'API et quel service d'email](06-hebergement-api.md) : une fonction planifiée quotidienne, avec les dates dans les métadonnées et `consulteLe` au jour près. Reste à trancher : les durées, le critère « consulté » (le garder ou ne compter que les publications), et l'avertissement ou non de l'auteur avant suppression, qui suppose de garder l'adresse alors qu'on n'en conserve que l'empreinte.

@@ -229,3 +229,19 @@ Mailgun est cité parce que le ticket le mentionne, mais ce n'est pas un fournis
 - **Lien de gestion** : seuls deux fournisseurs écartent la réécriture sans aucun réglage. Scaleway ne réécrit jamais les liens, et Lettermint ne propose pas le suivi sur l'offre gratuite. Chez Mailjet, Sweego et Mailgun, l'absence de réécriture repose sur un réglage, qu'il faut garder dans le code ou dans la configuration du domaine.
 - **DNS de `calendrier.vjeantet.fr`** : tous les fournisseurs demandent au moins DKIM et DMARC. Scaleway demande en plus un MX (le « blackhole » convient s'il n'y a pas de boîte de réception) et n'accepte pas d'`include` SPF récursif. Lettermint délègue le SPF à un CNAME de Return-Path.
 - **Brevo** : le blocage automatique des adresses IP inconnues peut couper les appels d'une Netlify Function si ses adresses IP sortantes changent. Il se désactive, mais la stabilité de ces adresses n'est pas vérifiée ici.
+
+## Complément : Sweego, offre gratuite (2026-11-11)
+
+Recherche ajoutée pendant le ticket « Où héberger l'API et quel service d'email », une fois Sweego retenu. La documentation de l'API n'est rendue qu'en JavaScript : l'OpenAPI v2.1.8 a été lue dans le bundle de learn.sweego.io.
+
+- **Carte bancaire** : non exigée. « no engagement • no credit card • no minimum time engagement » ([Transactional emails](https://www.sweego.io/transactional-emails)). Les CGV ne prévoient de carte ou de prélèvement SEPA que pour les offres payantes ([CGV](https://www.sweego.io/general-terms-and-conditions-of-sale)). Sans moyen de paiement enregistré, aucune facture n'est possible en pratique. Aucun texte ne le garantit pour autant.
+- **Au-delà de 100 emails par jour** : non documenté. L'offre gratuite a un quota `nb_emails: "100"` par `"day"`, sans dépassement prévu (`GET https://api.sweego.io/billing/plans`). Le « Burst » de 30 % et l'« Overage » ne concernent que les offres payantes ([tarifs](https://www.sweego.io/pricing)). La réponse de `POST /send` contient `credit_left`. Le seul code d'erreur proche est « 403 Access forbidden / restricted account » ([API error codes](https://learn.sweego.io/docs/api-error-codes)).
+- **Mention publicitaire** : aucune n'est documentée.
+- **Suivi** :
+  - Ouvertures : champ `tracking_open` (booléen, `true` par défaut), « False to disable email open tracking » ([POST /send](https://learn.sweego.io/docs/sweego/send-send-post), [changelog 1.4.5](https://learn.sweego.io/blog/changelog-1.4.5)).
+  - Clics : **aucun champ par message**. Le réglage se fait par domaine (`PUT /clients/{uuid}/domains/{uuid}/tracking {click_enabled, open_enabled}`).
+  - Le suivi des ouvertures comme celui des clics demande un enregistrement DNS `t.<domaine d'envoi>` ([Email Tracking](https://learn.sweego.io/docs/tracking/email_tracking)).
+- **Compte et domaine** : l'envoi commence « as soon as your account is validated », sans autre précision ([API & SMTP](https://www.sweego.io/send-email-sms-api-smtp)). Rien n'est documenté sur un préchauffage. Deux CNAME obligatoires (Return-Path/SPF et DKIM), DMARC recommandé ([Verify an email domain](https://learn.sweego.io/docs/emails/verify_an_email_domain)).
+- **Journaux** : pas de corps de message. On y trouve `subject`, `headers`, `email_from`, `email_to`, les IP et `tracking_click[]`, dont le contenu n'est pas documenté. Ils sont purgés après `nb_retention_days: "7"` sur l'offre gratuite ([Email Sending logs](https://learn.sweego.io/docs/logs/email/sending)).
+- **Région** : un seul point d'accès, `https://api.sweego.io`. « Our datacenters are located in France » ([Transactional emails](https://www.sweego.io/transactional-emails)).
+- **Débit de l'API, IP d'envoi** : non documentés. Les IP dédiées commencent aux offres Startup et Scaleup, donc des IP partagées en gratuit (déduction).
