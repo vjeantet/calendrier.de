@@ -1,7 +1,7 @@
 # Contenu de la page « Données personnelles »
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 10
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
