@@ -1,7 +1,7 @@
 # Limitation des envois et des lectures
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 07
 Map: [Partage d'un calendrier en lecture seule](../map.md)
 
