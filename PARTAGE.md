@@ -408,7 +408,7 @@ Voir [Forme de l'identifiant public](.scratch/partage/issues/05-forme-identifian
 
 ## Travail à faire
 
-Lots indépendants autant que possible, dans un ordre qui permet de les livrer un par un. Chacun a vocation à devenir un ticket `ready-for-agent`, sauf mention contraire.
+Lots indépendants autant que possible, dans un ordre qui permet de les livrer un par un. Chacun est devenu un ticket `ready-for-agent` de même numéro dans [`.scratch/partage-implementation/`](.scratch/partage-implementation/spec.md), avec trois tickets `ready-for-human` pour la relecture de la liste, les prérequis hors code et les vérifications sur Netlify.
 
 | Lot | Contenu | Dépend de |
 |---|---|---|
