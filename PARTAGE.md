@@ -408,7 +408,7 @@ Voir [Forme de l'identifiant public](.scratch/partage/issues/05-forme-identifian
 
 ## Travail à faire
 
-Lots indépendants autant que possible, dans un ordre qui permet de les livrer un par un. Chacun est devenu un ticket `ready-for-agent` de même numéro dans [`.scratch/partage-implementation/`](.scratch/partage-implementation/spec.md), avec trois tickets `ready-for-human` pour la relecture de la liste, les prérequis hors code et les vérifications sur Netlify.
+Lots indépendants autant que possible, dans un ordre qui permet de les livrer un par un. Chacun est devenu un ticket `ready-for-agent` de même numéro dans [`.scratch/partage-implementation/`](.scratch/partage-implementation/spec.md), sauf le lot 5, scindé en création et récupération, et le lot 12, dont les captures sont réparties dans les tickets des lots 8 à 11 ; s'y ajoutent trois tickets `ready-for-human` pour la relecture de la liste, les prérequis hors code et les vérifications sur Netlify.
 
 | Lot | Contenu | Dépend de |
 |---|---|---|

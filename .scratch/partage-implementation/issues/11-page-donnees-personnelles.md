@@ -22,8 +22,9 @@ Spec: [`PARTAGE.md`](../../../PARTAGE.md), section « Page « Données personnel
 - [ ] Chaque ligne du tableau et chaque formulation à reprendre de `PARTAGE.md` y figure sur le fond.
 - [ ] L'adresse de contact n'apparaît qu'à un endroit du fichier ; `donnees@vjeantet.fr` par défaut, à confirmer par l'auteur au [ticket 15](15-prerequis-hors-code.md).
 - [ ] Aucun script, aucune ressource tierce chargée par la page.
+- [ ] `outils/captures/` capture la page à 1440 × 900 et à 390 × 844 ; les captures existantes ne changent pas (`compare.sh`).
 
 ## Hors de ce ticket
 
-- Les liens vers cette page depuis le formulaire, les emails et `/@/<id>` : tickets [09](09-bandeau-auteur.md), [05](05-creation-recuperation.md), [08](08-page-lecteur.md).
+- Les liens vers cette page depuis le formulaire, les emails et `/@/<id>` : tickets [09](09-bandeau-auteur.md), [05](05-creation.md), [17](17-recuperation.md), [08](08-page-lecteur.md).
 - La vérification de l'adresse sur Netlify : [ticket 16](16-verifications-netlify.md).

@@ -22,6 +22,6 @@ Le script lit la licence dans le `README-Lexique.txt` de l'archive. CC BY-SA 4.0
 
 - La relecture finale par l'auteur : [ticket 14](14-relecture-liste-noms.md).
 - L'exception de licence dans le README : [ticket 13](13-readme.md).
-- Le tirage de l'identifiant et `included_files` : tickets [04](04-fondations-api.md) et [05](05-creation-recuperation.md).
+- Le tirage de l'identifiant et `included_files` : tickets [04](04-fondations-api.md) et [05](05-creation.md).
 
 Le téléchargement de Lexique peut demander d'autoriser son hôte dans l'environnement de l'agent.

@@ -15,7 +15,7 @@ La fonction `netlify/functions/partage.mjs` sur `/api/partages/*`, avec la règl
 
 ## Critères d'acceptation
 
-- [ ] Avec `netlify dev`, sur un partage semé directement dans le store local (ou créé par le [ticket 05](05-creation-recuperation.md)), chaque route rend les codes du tableau « Routes » : 200, 204, 400, 401, 403, 404, et `Cache-Control: no-store` sur tout `GET`.
+- [ ] Avec `netlify dev`, sur un partage semé directement dans le store local (ou créé par le [ticket 05](05-creation.md)), chaque route rend les codes du tableau « Routes » : 200, 204, 400, 401, 403, 404, et `Cache-Control: no-store` sur tout `GET`.
 - [ ] 401 pour une clé absente, inconnue, périmée ou pas dans l'état requis : `PUT` et `DELETE` refusent une clé en attente, `confirmer` refuse une clé en attente de plus de 48 h.
 - [ ] Après `confirmer`, l'ancienne clé lit `cle: "invalide"` et ne peut plus publier ; `confirmer` rejoué avec la nouvelle clé répond 200 sans rien changer.
 - [ ] Deux lectures le même jour n'écrivent `consulteLe` qu'une fois ; une publication simultanée à une lecture n'est pas écrasée (test sur l'`onlyIfMatch`).

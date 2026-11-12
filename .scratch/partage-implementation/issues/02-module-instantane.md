@@ -26,4 +26,4 @@ Le filtre puis la fusion des périodes n'existent qu'à un endroit : `charger()`
 
 ## Hors de ce ticket
 
-- L'usage de `preparer` et de l'empreinte par le bandeau ([ticket 09](09-bandeau-auteur.md)) et de `verifier` par les fonctions (tickets [05](05-creation-recuperation.md) et [06](06-lecture-publication-arret-confirmation.md)).
+- L'usage de `preparer` et de l'empreinte par le bandeau ([ticket 09](09-bandeau-auteur.md)) et de `verifier` par les fonctions (tickets [05](05-creation.md) et [06](06-lecture-publication-arret-confirmation.md)).

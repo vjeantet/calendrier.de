@@ -1,8 +1,8 @@
 # 09 : Bandeau de partage de l'auteur
 
 Status: ready-for-agent
-Blocked by: 02, 05, 06
-Spec: [`PARTAGE.md`](../../../PARTAGE.md), section « Navigateur de l'auteur » (sauf « Arrivée par le lien de gestion »). Décisions : [Comment l'instantané se met à jour](../../partage/issues/04-mise-a-jour-instantane.md), [À quoi ressemble l'interface de partage pour l'auteur](../../partage/issues/09-prototype-interface-auteur.md). Mise en page et textes de départ : branche `prototype/interface-partage`, variante B.
+Blocked by: 02, 05, 06, 08, 17
+Spec: [`PARTAGE.md`](../../../PARTAGE.md), sections « Navigateur de l'auteur » (sauf « Arrivée par le lien de gestion ») et « Captures à ajouter ». Décisions : [Comment l'instantané se met à jour](../../partage/issues/04-mise-a-jour-instantane.md), [À quoi ressemble l'interface de partage pour l'auteur](../../partage/issues/09-prototype-interface-auteur.md). Mise en page et textes de départ : branche `prototype/interface-partage`, variante B.
 
 ## À construire
 
@@ -15,6 +15,7 @@ Sur la page locale, le bouton « Partager » et le bandeau entre `#entete` et `#
 - Tous les messages d'erreur de la section, dont les deux 429 distingués par le corps, et les refus avant envoi (titre > 100 caractères, corps > 100 000 octets).
 - Confirmation de « Réinitialiser » complétée quand `partage` existe ; « Réinitialiser » ne touche pas à `partage`.
 - Bandeau et bouton présents seulement sur l'origine canonique (constante JS de même valeur que `URL_PUBLIQUE`), masqués à l'impression, exclus de la mise à l'échelle.
+- Les **captures** du bandeau. `serveur.py`, qui simule déjà la lecture depuis le [ticket 08](08-page-lecteur.md), répond aussi aux écritures comme l'API (`POST /api/partages`, `POST /api/liens`, `PUT`, `DELETE`, y compris le 429 journalier, le 429 de Netlify et le 400) et aux lectures avec une clé `active` ou `invalide`. `fixture.js` remplace l'origine canonique par l'origine locale, remplit `partage` à la demande, et rejoue les gestes indiqués dans l'URL (clic sur « Partager », saisie d'une adresse, envoi, modification d'un jour).
 
 ## Critères d'acceptation
 
@@ -26,8 +27,11 @@ Sur la page locale, le bouton « Partager » et le bandeau entre `#entete` et `#
 - [ ] Sur une autre origine que la canonique, ni bandeau ni bouton « Partager ». À l'impression, ni l'un ni l'autre.
 - [ ] Le calendrier garde sa taille avec le bandeau ouvert ; la page défile de la hauteur du bandeau.
 - [ ] Sans `partage`, la page locale est inchangée hors du bouton « Partager » : `compare.sh` ne montre d'écart que là.
+- [ ] Nouvelles captures sur `/Claire/2026/03` annoté, à 1440 × 900 sauf mention : formulaire (aussi à 1000 × 700), lien envoyé, « J'ai déjà un lien » et sa réponse ; ligne « Partagé », modifications non publiées avec le rappel, confirmation d'« Arrêter », partage arrêté, clé remplacée ; « Réessayez demain », « Réessayez dans quelques minutes » ; refus du serveur (400), titre trop long, calendrier trop volumineux ; impression avec un partage actif.
+- [ ] Les autres captures ne changent pas, hors du bouton « Partager » sur la page locale : `compare.sh` contre une série prise avant le ticket ne montre aucun écart sur elles.
+- [ ] Deux exécutions successives de `captures.sh` donnent des captures identiques.
+- [ ] Aucun identifiant de démonstration ni état simulé n'entre dans `public/` : tout passe par `serveur.py` et `fixture.js`.
 
 ## Hors de ce ticket
 
 - La page `/@/<id>#cle=…` et le bandeau bleu : [ticket 10](10-arrivee-lien-gestion.md).
-- Les captures des états : [ticket 12](12-captures.md).

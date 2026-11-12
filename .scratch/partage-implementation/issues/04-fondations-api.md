@@ -25,6 +25,6 @@ Le socle commun aux trois fonctions, sans route métier :
 
 ## Hors de ce ticket
 
-- Les fonctions `envois`, `partage` et `menage` : tickets [05](05-creation-recuperation.md), [06](06-lecture-publication-arret-confirmation.md), [07](07-tache-quotidienne.md).
-- L'envoi par Sweego et le commutateur `EMAIL_SIMULE` : [ticket 05](05-creation-recuperation.md), où vit l'envoi.
+- Les fonctions `envois`, `partage` et `menage` : tickets [05](05-creation.md) et [17](17-recuperation.md), [06](06-lecture-publication-arret-confirmation.md), [07](07-tache-quotidienne.md).
+- L'envoi par Sweego et le commutateur `EMAIL_SIMULE` : [ticket 05](05-creation.md), où vit l'envoi.
 - La vérification de `X-Robots-Tag` et de la redirection sur Netlify : [ticket 16](16-verifications-netlify.md).
